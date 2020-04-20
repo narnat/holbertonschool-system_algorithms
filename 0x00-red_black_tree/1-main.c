@@ -78,6 +78,21 @@ rb_tree_t *not_valid_rb(void)
 }
 
 /**
+ * valid_rb - Builds a valid R-B tree
+ *
+ * Return: A pointer to the created tree
+ */
+rb_tree_t *invalid_rb2(void)
+{
+	rb_tree_t *root;
+
+	root = rb_tree_node(NULL, 98, BLACK);
+	root->left = rb_tree_node(root, 90, BLACK);
+	root->left->left = rb_tree_node(root->left, 79, BLACK);
+	return (root);
+}
+
+/**
  * main - Entry point
  *
  * Return: Always EXIT_SUCCESS
@@ -138,6 +153,15 @@ int main(void)
     rb_tree_print(root);
     valid = rb_tree_is_valid(root);
     printf("Is %d valid: %d, EXP : true\n", root->n, valid);
+
+    printf("%s\n", str);
+
+    printf("%s\n", str);
+
+    root = invalid_rb2();
+    rb_tree_print(root);
+    valid = rb_tree_is_valid(root);
+    printf("Is %d valid: %d, EXP : false\n", root->n, valid);
 
     printf("%s\n", str);
 
