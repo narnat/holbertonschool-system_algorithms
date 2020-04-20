@@ -46,6 +46,5 @@ int rb_tree_is_valid(const rb_tree_t *tree)
 	if (!tree || (!tree->parent && tree->color != BLACK))
 		return (0);
 	res = rb_tree_verify(tree, INT_MIN, INT_MAX, &h);
-	printf("Max Heigth: %d, is valid: %d\n", h, res);
 	return (res);
 }
