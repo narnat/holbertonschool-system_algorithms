@@ -49,5 +49,5 @@ rb_tree_t *rb_tree_insert(rb_tree_t **tree, int value);
 rb_tree_t *array_to_rb_tree(int *array, size_t size);
 rb_tree_t *rb_tree_remove(rb_tree_t *root, int n);
 
-void rotate(rb_tree_t *node, int direction);
+void rotate(rb_tree_t **tree, rb_tree_t **node, int direction);
 #endif /* _RB_TREES_H_ */
