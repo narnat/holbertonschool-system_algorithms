@@ -1,75 +1,112 @@
 #include "rb_trees.h"
 
+/**
+ * right_side_fix - Case where parent of @node is at
+ * the right side of its grandparent
+ * @tree: RB tree
+ * @node: node to be fixed
+ * Return: updated pointer to node
+ */
+rb_tree_t *right_side_fix(rb_tree_t **tree, rb_tree_t *node)
+{
+	rb_tree_t *parent, *uncle, *gparent;
+
+	parent = GET_PARENT(node);
+	gparent = GET_GRANDPARENT(node);
+	uncle = gparent->left;
+	if (uncle && uncle->color == RED)
+	{
+		uncle->color = parent->color = BLACK;
+		gparent->color = RED;
+		node = gparent;
+	}
+	else
+	{
+		if (parent->left == node)
+		{
+			node = parent;
+			rotate(tree, &node, RIGHT_ROTATE);
+			parent = GET_PARENT(node);
+			gparent = GET_GRANDPARENT(node);
+		}
+		parent->color = BLACK;
+		if (gparent)
+		{
+			gparent->color = RED;
+			rotate(tree, &gparent, LEFT_ROTATE);
+		}
+	}
+
+	return (node);
+}
+
+/**
+ * left_side_fix - Case where parent of @node is at
+ * the left side of its grandparent
+ * @tree: RB tree
+ * @node: node to be fixed
+ * Return: updated pointer to node
+ */
+rb_tree_t *left_side_fix(rb_tree_t **tree, rb_tree_t *node)
+{
+	rb_tree_t *parent, *uncle, *gparent;
+
+	parent = GET_PARENT(node);
+	gparent = GET_GRANDPARENT(node);
+	uncle = gparent->right;
+	if (uncle && uncle->color == RED)
+	{
+		uncle->color = parent->color = BLACK;
+		gparent->color = RED;
+		node = gparent;
+	}
+	else
+	{
+		if (parent->right == node)
+		{
+			node = parent;
+			rotate(tree, &node, LEFT_ROTATE);
+			parent = GET_PARENT(node);
+			gparent = GET_GRANDPARENT(node);
+		}
+		parent->color = BLACK;
+		if (gparent)
+		{
+			gparent->color = RED;
+			rotate(tree, &gparent, RIGHT_ROTATE);
+		}
+	}
+
+	return (node);
+}
+
+/**
+ * rb_tree_fix - fix RB tree
+ * @tree: RB tree
+ * @node: the newly inserted node
+ */
 void rb_tree_fix(rb_tree_t **tree, rb_tree_t *node)
 {
-	rb_tree_t *parent = GET_PARENT(node), *uncle, *gparent = GET_GRANDPARENT(node);
+	rb_tree_t *parent = GET_PARENT(node), *gparent = GET_GRANDPARENT(node);
 
 	while (parent && parent->color == RED)
 	{
 		if (gparent && gparent->left == parent)
-		{
-			uncle = gparent->right;
-			if (uncle && uncle->color == RED)
-			{
-				uncle->color = parent->color = BLACK;
-				gparent->color = RED;
-				node = gparent;
-			}
-			else
-			{
-				if (parent->right == node)
-				{
-					node = parent;
-					rotate(tree, &node, LEFT_ROTATE);
-					parent = GET_PARENT(node);
-					gparent = GET_GRANDPARENT(node); /* Maybe null? */
-				}
-				parent->color = BLACK;
-				if (gparent)
-				{
-					gparent->color = RED;
-					rotate(tree, &gparent, RIGHT_ROTATE);
-				}
-			}
-		}
-		else if (gparent && gparent->right == parent)
-		{
-			uncle = gparent->left;
-			if (uncle && uncle->color == RED)
-			{
-				uncle->color = parent->color = BLACK;
-				gparent->color = RED;
-				node = gparent;
-			}
-			else
-			{
-				if (parent->left == node)
-				{
-					node = parent;
-					rotate(tree, &node, RIGHT_ROTATE);
-					parent = GET_PARENT(node);
-					gparent = GET_GRANDPARENT(node);
-				}
-				parent->color = BLACK;
+			node = left_side_fix(tree, node);
+		else
+			node = right_side_fix(tree, node);
 
-				gparent->color = RED;
-				rotate(tree, &gparent, LEFT_ROTATE);
-				/* if (gparent) */
-				/* { */
-				/* 	gparent->color = RED; */
-				/* 	rotate(tree, &gparent, LEFT_ROTATE); */
-				/* } */
-			}
-		}
+		parent = GET_PARENT(node);
+		gparent = GET_GRANDPARENT(node);
 	}
 	(*tree)->color = BLACK;
 }
 
 /**
- * rotate - rotate binary tree either to left or right
- * @node: node to rotate
- * @dir: direction of rotation, LEFT_ROTATE or RIGHT_ROTATE, 0 or 1
- * RIGHT_ROTATE is by default, if passed any non zero value
+ * rb_tree_insert - insert into RB tree
+ * @tree: RB tree
+ * @value: value to put into @tree
+ * Return: a new node with @value or NULL in case of failure
  */
 rb_tree_t *rb_tree_insert(rb_tree_t **tree, int value)
 {
@@ -104,6 +141,7 @@ rb_tree_t *rb_tree_insert(rb_tree_t **tree, int value)
 
 /**
  * rotate - rotate binary tree either to left or right
+ * @tree: RB tree
  * @node: node to rotate
  * @dir: direction of rotation, LEFT_ROTATE or RIGHT_ROTATE, 0 or 1
  * RIGHT_ROTATE is by default, if passed any non zero value
@@ -125,18 +163,16 @@ void rotate(rb_tree_t **tree, rb_tree_t **node, int dir)
 		? ((*node)->right = new->left, new->left = (*node))
 		: ((*node)->left = new->right, new->right = (*node));
 	(*node)->parent = new;
-
 	if (dir == LEFT_ROTATE ? (*node)->right : (*node)->left)
 		dir == LEFT_ROTATE
 			? ((*node)->right->parent = (*node))
 			: ((*node)->left->parent = (*node));
-
 	if (p)
 	{
 		if ((*node) == p->left)
 			p->left = new;
 		else if ((*node) == p->right)
- 			p->right = new;
+			p->right = new;
 	}
 	else
 		*tree = new;

@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define GET_PARENT(x) ((x) == NULL ? NULL : (x)->parent)
 #define GET_GRANDPARENT(x) (GET_PARENT(GET_PARENT(x)))
 
