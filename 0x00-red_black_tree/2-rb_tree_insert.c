@@ -51,11 +51,14 @@ void rb_tree_fix(rb_tree_t **tree, rb_tree_t *node)
 					gparent = GET_GRANDPARENT(node);
 				}
 				parent->color = BLACK;
-				if (gparent)
-				{
-					gparent->color = RED;
-					rotate(tree, &gparent, LEFT_ROTATE);
-				}
+
+				gparent->color = RED;
+				rotate(tree, &gparent, LEFT_ROTATE);
+				/* if (gparent) */
+				/* { */
+				/* 	gparent->color = RED; */
+				/* 	rotate(tree, &gparent, LEFT_ROTATE); */
+				/* } */
 			}
 		}
 	}
@@ -113,17 +116,19 @@ void rotate(rb_tree_t **tree, rb_tree_t **node, int dir)
 	if (!node || !*node)
 		return;
 
-	p = GET_PARENT(*node);
 	new = dir == LEFT_ROTATE ? (*node)->right : (*node)->left;
 	if (!new)
 		return;
 
-	dir == LEFT_ROTATE ? ((*node)->right = new->left, new->left = (*node))
+	p = GET_PARENT(*node);
+	dir == LEFT_ROTATE
+		? ((*node)->right = new->left, new->left = (*node))
 		: ((*node)->left = new->right, new->right = (*node));
 	(*node)->parent = new;
 
 	if (dir == LEFT_ROTATE ? (*node)->right : (*node)->left)
-		dir == LEFT_ROTATE ? ((*node)->right->parent = (*node))
+		dir == LEFT_ROTATE
+			? ((*node)->right->parent = (*node))
 			: ((*node)->left->parent = (*node));
 
 	if (p)
@@ -131,11 +136,9 @@ void rotate(rb_tree_t **tree, rb_tree_t **node, int dir)
 		if ((*node) == p->left)
 			p->left = new;
 		else if ((*node) == p->right)
-			p->right = new;
+ 			p->right = new;
 	}
 	else
 		*tree = new;
-
 	new->parent = p;
-	/* *node = new; /\* To change the value of node, pass by reference*\/ */
 }
