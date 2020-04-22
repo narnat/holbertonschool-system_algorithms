@@ -115,19 +115,19 @@ rb_tree_t *rb_tree_insert(rb_tree_t **tree, int value)
 	if (!tree)
 		return (NULL);
 	cur = *tree;
-	new = rb_tree_node(NULL, value, RED);
-	if (!new)
-		return (NULL);
 	while (cur)
 	{
 		prev = cur;
-		if (cur->n == new->n)
-			return (free(new), NULL);
-		if (new->n < cur->n)
+		if (cur->n == value)
+			return (NULL);
+		if (value < cur->n)
 			cur = cur->left;
 		else
 			cur = cur->right;
 	}
+	new = rb_tree_node(NULL, value, RED);
+	if (!new)
+		return (NULL);
 	new->parent = prev;
 	if (!prev)
 		*tree = new;
