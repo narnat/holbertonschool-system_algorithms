@@ -11,6 +11,7 @@
 
 #define LEFT_ROTATE 0
 #define RIGHT_ROTATE 1
+
 /**
  * enum rb_color_e - Possible color of a Red-Black tree
  *
