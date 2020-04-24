@@ -193,8 +193,8 @@ rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *del)
 		copy->color = del->color;
 	}
 	free(del);
-	if (color == BLACK)
-		return (rb_tree_delete_fix(root, replace));
+	/* if (color == BLACK) */
+	/*	return (rb_tree_delete_fix(root, replace)); */
 	return (root);
 }
 
@@ -203,7 +203,7 @@ rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *del)
  * @root: RB tree
  * @n: value which needs to be deleted
  * Return: updated @root
-*/
+ */
 rb_tree_t *rb_tree_remove(rb_tree_t *root, int n)
 {
 	rb_tree_t *cur = root;
