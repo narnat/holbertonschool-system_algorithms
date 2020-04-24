@@ -158,7 +158,7 @@ rb_tree_t *rb_tree_delete_fix(rb_tree_t *root, rb_tree_t *node)
 rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *del)
 {
 	rb_tree_t *copy = del, *replace = NULL;
-	rb_color_t color = del->color;
+	/* rb_color_t color = del->color; */
 
 	if (!del->left)
 	{
@@ -173,7 +173,7 @@ rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *del)
 	else
 	{
 		copy = get_min(del->right);
-		color = copy->color;
+		/* color = copy->color; */
 		replace = copy->right;
 		if (copy->parent == del) /* FIXME: bug*/
 		{
