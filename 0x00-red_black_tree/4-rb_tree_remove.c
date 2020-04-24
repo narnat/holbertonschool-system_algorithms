@@ -34,26 +34,29 @@ rb_tree_t *get_min(rb_tree_t *tree)
  * rb_fix_left_sibling - fix left sibling
  * @root: RB tree
  * @node: node which breaks properties of RB tree
+ * @parent: parent of @node or if @node is null, it is
+ * a node where RB is invalid
  * Return: Updated @node
  */
-rb_tree_t *rb_fix_left_sibling(rb_tree_t **root, rb_tree_t *node)
+rb_tree_t *rb_fix_left_sibling(rb_tree_t **root,
+			       rb_tree_t *node, rb_tree_t *parent)
 {
 	rb_tree_t *sibling;
 
-	sibling = node->parent->left;
+	sibling = parent->left;
 	if (sibling && sibling->color == RED)
 	{
 		sibling->color = BLACK;
-		node->parent->color = RED;
-		rotate(root, &(node->parent), RIGHT_ROTATE);
-		if (node->parent)
-			sibling = node->parent->left;
+		parent->color = RED;
+		rotate(root, &(parent), RIGHT_ROTATE);
+		if (parent)
+			sibling = parent->left;
 	}
 	if ((!sibling->left || sibling->left->color == BLACK)
 	    && (!sibling->right || sibling->right->color == BLACK))
 	{
 		sibling->color = RED;
-		node = node->parent;
+		node = parent;
 	}
 	else
 	{
@@ -63,15 +66,15 @@ rb_tree_t *rb_fix_left_sibling(rb_tree_t **root, rb_tree_t *node)
 				sibling->right->color = BLACK;
 			sibling->color = RED;
 			rotate(root, &sibling, LEFT_ROTATE);
-			if (node->parent)
-				sibling = node->parent->left;
+			if (parent)
+				sibling = parent->left;
 		}
-		sibling->color = node->parent->color;
-		if (node->parent)
-			node->parent->color = BLACK;
-		if (sibling->right)
-			sibling->right->color = BLACK;
-		rotate(root, &(node->parent), RIGHT_ROTATE);
+		if (sibling)
+			sibling->color = parent->color;
+		parent->color = BLACK;
+		if (sibling && sibling->left)
+			sibling->left->color = BLACK;
+		rotate(root, &parent, RIGHT_ROTATE);
 		node = *root;
 	}
 	return (node);
@@ -81,26 +84,29 @@ rb_tree_t *rb_fix_left_sibling(rb_tree_t **root, rb_tree_t *node)
  * rb_fix_right_sibling - fix right sibling
  * @root: RB tree
  * @node: node which breaks properties of RB tree
+ * @parent: parent of @node or if @node is null, it is
+ * a node where RB is invalid
  * Return: Updated @node
 */
-rb_tree_t *rb_fix_right_sibling(rb_tree_t **root, rb_tree_t *node)
+rb_tree_t *rb_fix_right_sibling(rb_tree_t **root,
+				rb_tree_t *node, rb_tree_t *parent)
 {
 	rb_tree_t *sibling;
 
-	sibling = node->parent->right;
+	sibling = parent->right;
 	if (sibling && sibling->color == RED)
 	{
 		sibling->color = BLACK;
-		node->parent->color = RED;
-		rotate(root, &(node->parent), LEFT_ROTATE);
-		if (node->parent)
-			sibling = node->parent->right;
+		parent->color = RED;
+		rotate(root, &parent, LEFT_ROTATE);
+		if (parent)
+			sibling = parent->right;
 	}
 	if ((!sibling->left || sibling->left->color == BLACK)
 	    && (!sibling->right || sibling->right->color == BLACK))
 	{
 		sibling->color = RED;
-		node = node->parent;
+		node = parent;
 	}
 	else
 	{
@@ -110,15 +116,15 @@ rb_tree_t *rb_fix_right_sibling(rb_tree_t **root, rb_tree_t *node)
 				sibling->left->color = BLACK;
 			sibling->color = RED;
 			rotate(root, &sibling, RIGHT_ROTATE);
-			if (node->parent)
-				sibling = node->parent->right;
+			if (parent)
+				sibling = parent->right;
 		}
-		sibling->color = node->parent->color;
-		if (node->parent)
-			node->parent->color = BLACK;
-		if (sibling->right)
+		if (sibling)
+			sibling->color = parent->color;
+		parent->color = BLACK;
+		if (sibling && sibling->right)
 			sibling->right->color = BLACK;
-		rotate(root, &(node->parent), LEFT_ROTATE);
+		rotate(root, &parent, LEFT_ROTATE);
 		node = *root;
 	}
 
@@ -129,19 +135,24 @@ rb_tree_t *rb_fix_right_sibling(rb_tree_t **root, rb_tree_t *node)
  * rb_tree_delete_fix - fix RB tree after deletion of a node
  * @root: RB tree
  * @node: node which breaks properties of RB tree
+ * @parent: parent of @node or if @node is null, it is
+ * a node where RB is invalid
  * Return: Updated @root
  */
-rb_tree_t *rb_tree_delete_fix(rb_tree_t *root, rb_tree_t *node)
+rb_tree_t *rb_tree_delete_fix(rb_tree_t *root,
+			      rb_tree_t *node, rb_tree_t *parent)
 {
-	while (node && node != root && node->color == BLACK)
+	while ((node && node != root && node->color == BLACK) || (!node && parent))
 	{
-		if (node == node->parent->left)
+		if (node == parent->left)
 		{
-			node = rb_fix_right_sibling(&root, node);
+			node = rb_fix_right_sibling(&root, node, parent);
+			parent = GET_PARENT(node);
 		}
 		else
 		{
-			node = rb_fix_left_sibling(&root, node);
+			node = rb_fix_left_sibling(&root, node, parent);
+			parent = GET_PARENT(node);
 		}
 	}
 	if (node)
@@ -157,12 +168,13 @@ rb_tree_t *rb_tree_delete_fix(rb_tree_t *root, rb_tree_t *node)
 */
 rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *del)
 {
-	rb_tree_t *copy = del, *replace = NULL;
-	/* rb_color_t color = del->color; */
+	rb_tree_t *copy = del, *replace = NULL, *parent = NULL;
+	rb_color_t color = del->color;
 
 	if (!del->left)
 	{
 		replace = del->right; /* FIXME: it can be null*/
+		!replace ? parent = del->parent : NULL;
 		rb_replace(&root, del, replace);
 	}
 	else if (!del->right)
@@ -173,19 +185,19 @@ rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *del)
 	else
 	{
 		copy = get_min(del->right);
-		/* color = copy->color; */
+		color = copy->color;
 		replace = copy->right;
 		if (copy->parent == del) /* FIXME: bug*/
 		{
-			if (replace && replace->parent)
-				replace->parent = copy;
+			replace ? replace->parent = copy : NULL;
+			parent = copy;
 		}
 		else
 		{
-			rb_replace(&root, copy, replace);
+			rb_replace(&root, copy, copy->right);
+			parent = copy->parent;
 			copy->right = del->right;
-			if (copy->right)
-				copy->right->parent = copy;
+			copy->right ? copy->right->parent = copy : NULL;
 		}
 		rb_replace(&root, del, copy);
 		copy->left = del->left;
@@ -193,8 +205,8 @@ rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *del)
 		copy->color = del->color;
 	}
 	free(del);
-	/* if (color == BLACK) */
-	/*	return (rb_tree_delete_fix(root, replace)); */
+	if (color == BLACK)
+		return (rb_tree_delete_fix(root, replace, parent));
 	return (root);
 }
 
