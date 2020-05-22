@@ -26,8 +26,18 @@ int rand_int(int max);
 rb_tree_t *test_random_array(int len, int max, int *_n, int **array);
 int tree_contains(rb_tree_t *tree, int n);
 
-#define VERBOSE 1
-#define KEEP_TESTING 0
+#define BLK "\033[0;30m"
+#define ARED "\033[0;31m"
+#define GRN "\033[0;32m"
+#define YEL "\033[0;33m"
+#define BLU "\033[0;34m"
+#define MAG "\033[0;35m"
+#define CYN "\033[0;36m"
+#define WHT "\033[0;37m"
+#define RES "\033[0;0m"
+
+#define VERBOSE 0
+#define KEEP_TESTING 1
 #define _RAND_LEN 1000
 #define _RAND_MAX 100
 
@@ -127,6 +137,7 @@ void keep_testing()
 	rb_tree_t *tree;
 	int n;
 	int *arr;
+	size_t counter = 13;
 
 	while (98)
 	{
@@ -140,8 +151,11 @@ void keep_testing()
 			printf("\n");
 			break;
 		}
+
+		printf(GRN "TEST [%lu] OK.\n" RES, counter);
 		free(arr);
 		i++;
+		++counter;
 	}
 }
 

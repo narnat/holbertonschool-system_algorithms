@@ -9,7 +9,6 @@ Read or watch:
 What you should learn from this project:
 
 * What is a Red Black Tree
-
 ---
 
 ### [0. Red-Black - New node](./0-rb_tree_node.c)
