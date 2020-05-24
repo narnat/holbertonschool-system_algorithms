@@ -15,8 +15,8 @@ TASK5 = 5-breadth_first_traverse
 # $(TASK4): $(TASK4).c 4-main.c
 # 	$(CC) $(CFLAGS) -o $@  $^ graph_display.c
 
-# $(TASK3): $(TASK3).c 3-main.c
-# 	$(CC) $(CFLAGS) -o $@  $^ graph_display.c
+$(TASK3): $(TASK3).c 3-main.c $(TASK0).c $(TASK1).c $(TASK2).c
+	$(CC) $(CFLAGS) -o $@  $^ graph_display.c
 
 $(TASK2): $(TASK2).c 2-main.c $(TASK0).c $(TASK1).c
 	$(CC) $(CFLAGS) -o $@  $^ graph_display.c
