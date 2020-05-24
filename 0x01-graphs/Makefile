@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -pedantic -std=c89 -ggdb3
+CFLAGS = -Wall -Werror -Wextra -pedantic -ggdb3 -std=gnu90
 
 TASK0 = 0-graph_create
 TASK1 = 1-graph_add_vertex
@@ -21,8 +21,8 @@ TASK5 = 5-breadth_first_traverse
 # $(TASK2): $(TASK2).c 2-main.c
 # 	$(CC) $(CFLAGS) -o $@  $^ graph_display.c
 
-# $(TASK1): $(TASK1).c 1-main.c
-# 	$(CC) $(CFLAGS) -o $@  $^ graph_display.c
+$(TASK1): $(TASK1).c 1-main.c $(TASK0).c
+	$(CC) $(CFLAGS) -o $@  $^ graph_display.c
 
 $(TASK0): $(TASK0).c 0-main.c
 	$(CC) $(CFLAGS) -o $@  $^ graph_display.c
