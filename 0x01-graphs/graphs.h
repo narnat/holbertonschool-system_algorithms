@@ -6,6 +6,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 /**
  * enum edge_type_e - Enumerates the different types of
  * connection between two vertices
@@ -35,6 +38,18 @@ typedef struct edge_s
 	struct edge_s   *next;
 } edge_t;
 
+/**
+ * struct queue_s - Node in the linked list of edges for a given vertex
+ * @head: Pointer to the head of queue
+ * @tail: Pointer to the tail of queue
+ * @size: size of queue
+ */
+typedef struct queue_s
+{
+	struct edge_s *head;
+	struct edge_s *tail;
+	size_t size;
+} queue_t;
 
 /**
  * struct vertex_s - Node in the linked list of vertices in the adjency list

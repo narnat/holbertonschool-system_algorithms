@@ -26,6 +26,7 @@ int get_vertex(graph_t *graph, const char *s1,
 			*v2 = vertex;
 		vertex = vertex->next;
 	}
+	/* TODO: Check if vertex exist */
 	return (1);
 }
 /**
@@ -91,6 +92,7 @@ int graph_add_edge(graph_t *graph, const char *src,
 {
 	vertex_t *vertex1, *vertex2;
 
+	/* TODO: increment nb_edges */
 	if (!graph || !src || !dest ||
 	    (type != UNIDIRECTIONAL && type != BIDIRECTIONAL))
 		return (0);
