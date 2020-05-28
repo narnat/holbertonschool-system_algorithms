@@ -26,7 +26,8 @@ int get_vertex(graph_t *graph, const char *s1,
 			*v2 = vertex;
 		vertex = vertex->next;
 	}
-	/* TODO: Check if vertex exist */
+	if (!*v1 || !*v2)
+		return (0);
 	return (1);
 }
 /**
@@ -53,6 +54,7 @@ int add_edge(vertex_t *src, vertex_t *dest)
 		src->edges = new;
 	else
 		edge->next = new;
+	src->nb_edges += 1;
 	return (1);
 }
 
@@ -76,6 +78,8 @@ int delete_last_edge(vertex_t *vertex)
 			prev->next = NULL;
 		free(edge);
 	}
+	if (vertex->nb_edges > 0)
+		vertex->nb_edges -= 1;
 	return (1);
 }
 
@@ -90,9 +94,8 @@ int delete_last_edge(vertex_t *vertex)
 int graph_add_edge(graph_t *graph, const char *src,
 		   const char *dest, edge_type_t type)
 {
-	vertex_t *vertex1, *vertex2;
+	vertex_t *vertex1 = NULL, *vertex2 = NULL;
 
-	/* TODO: increment nb_edges */
 	if (!graph || !src || !dest ||
 	    (type != UNIDIRECTIONAL && type != BIDIRECTIONAL))
 		return (0);
