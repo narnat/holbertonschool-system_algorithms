@@ -13,11 +13,14 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 	if (!graph || !str)
 		return (NULL);
 	vertex = graph->vertices;
-	while (vertex && vertex->next)
+	while (vertex)
 	{
 		if (!strcmp(vertex->content, str))
 			return (NULL);
-		vertex = vertex->next;
+		if (vertex->next)
+			vertex = vertex->next;
+		else
+			break;
 	}
 
 	new = malloc(sizeof(*new));
