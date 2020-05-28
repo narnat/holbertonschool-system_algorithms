@@ -30,9 +30,6 @@ void graph_delete(graph_t *graph)
 		return;
 
 	vertices = graph->vertices;
-	if (!vertices)
-		return;
-
 	while (vertices)
 	{
 		cur = vertices;
