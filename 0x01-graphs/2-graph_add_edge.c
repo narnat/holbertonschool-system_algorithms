@@ -14,7 +14,7 @@ int get_vertex(graph_t *graph, const char *s1,
 {
 	vertex_t *vertex;
 
-	if (!graph || !s1 || !s2 || !strcmp(s1, s2))
+	if (!graph || !s1 || !s2)
 		return (0);
 
 	vertex = graph->vertices;
