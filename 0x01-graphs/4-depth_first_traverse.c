@@ -1,14 +1,12 @@
 #include "graphs.h"
 #include <sys/types.h>
 
-static size_t max;
-
 /**
  * check_and_mark - check if @vertex is visited, mark if not
  * @seen: seen table
  * @vertex: vertex to check
  * Return: 1 on success when @vertex not visited, 0 on failure
-*/
+ */
 int check_and_mark(int *seen, vertex_t *vertex)
 {
 	if (!vertex || !seen)
@@ -39,7 +37,6 @@ size_t dfs(vertex_t *vertex,
 	action(vertex, depth);
 	edge = vertex->edges;
 	dp = 0;
-	max = MAX(max, depth);
 	while (edge)
 	{
 		tmp = dfs(edge->dest, action, depth + 1, seen);
@@ -65,7 +62,6 @@ size_t depth_first_traverse(
 
 	if (!graph || !action)
 		return (0);
-	max = 0;
 	seen = calloc(graph->nb_vertices, sizeof(*seen));
 	if (!seen)
 		return (0);
@@ -78,7 +74,5 @@ size_t depth_first_traverse(
 		v = v->next;
 	}
 	free(seen);
-	/* return (max); */
-	printf("\nDepth with max: %lu\n", max);
 	return (depth > 0 ? depth - 1 : depth); /* TODO: Better way */
 }
