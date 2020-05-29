@@ -104,7 +104,7 @@ int graph_add_edge(graph_t *graph, const char *src,
 		return (0);
 	if (!add_edge(vertex1, vertex2))
 		return (0);
-	if (type == BIDIRECTIONAL)
+	if (type == BIDIRECTIONAL && strcmp(src, dest))
 		if (!add_edge(vertex2, vertex1))
 		{
 			delete_last_edge(vertex1);
