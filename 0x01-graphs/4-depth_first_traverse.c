@@ -40,7 +40,8 @@ size_t dfs(vertex_t *vertex,
 	while (edge)
 	{
 		tmp = dfs(edge->dest, action, depth + 1, seen);
-		dp = MAX(dp, tmp);
+		if (tmp > dp)
+			dp = tmp;
 		edge = edge->next;
 	}
 	return (dp + 1);
@@ -68,9 +69,10 @@ size_t depth_first_traverse(
 	v = graph->vertices;
 
 	tmp = dfs(v, action, 0, seen);
-	depth = MAX(depth, tmp);
+	if (tmp > depth)
+		depth = tmp;
 	v = v->next;
 	free(seen);
-	return (depth);
+	return (-1);
 	/* return (depth > 0 ? depth - 1 : depth); /\* TODO: Better way *\/ */
 }
