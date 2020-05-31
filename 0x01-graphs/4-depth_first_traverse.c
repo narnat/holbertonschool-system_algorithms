@@ -61,7 +61,7 @@ size_t depth_first_traverse(
 	size_t depth = 0, tmp;
 	vertex_t *v;
 
-	if (!graph || !action)
+	if (!graph)
 		return (0);
 	seen = calloc(graph->nb_vertices, sizeof(*seen));
 	if (!seen)
