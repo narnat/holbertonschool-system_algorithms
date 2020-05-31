@@ -71,5 +71,6 @@ size_t depth_first_traverse(
 	depth = MAX(depth, tmp);
 	v = v->next;
 	free(seen);
-	return (depth > 0 ? depth - 1 : depth); /* TODO: Better way */
+	return (depth);
+	/* return (depth > 0 ? depth - 1 : depth); /\* TODO: Better way *\/ */
 }
