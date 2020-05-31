@@ -6,26 +6,33 @@
  * @action: function to take action
  * @depth: current depth in bfs tree
  * @seen: table of seen vertices
+ * @max: max depth
  * Return: depth
  */
-size_t dfs(vertex_t *vertex,
-	   void (*action)(const vertex_t *v, size_t depth), size_t depth, int *seen)
+void dfs(vertex_t *vertex,
+	 void (*action)(const vertex_t *v, size_t depth), size_t depth,
+	   int *seen, size_t *max)
 {
 	edge_t *edge;
-	size_t dp = 0, tmp;
 
 	if (!vertex || seen[vertex->index])
-		return (0);
+		return;
 	seen[vertex->index] = 1;
 	action(vertex, depth);
+	if (*max < depth)
+		*max = depth;
 	edge = vertex->edges;
-	while (edge)
+	if (edge)
 	{
-		tmp = dfs(edge->dest, action, depth + 1, seen);
-		dp = MAX(tmp, dp);
+		dfs(edge->dest, action, ++depth, seen, max);
 		edge = edge->next;
 	}
-	return (dp + 1);
+
+	while (edge)
+	{
+		dfs(edge->dest, action, depth, seen, max);
+		edge = edge->next;
+	}
 }
 
 /**
@@ -39,14 +46,14 @@ size_t depth_first_traverse(
 	void (*action)(const vertex_t *v, size_t depth))
 {
 	int *seen = NULL;
-	size_t depth = 0;
+	size_t max = 0;
 
 	if (!graph || !action)
 		return (0);
 	seen = calloc(graph->nb_vertices, sizeof(*seen));
 	if (!seen)
 		return (0);
-	depth = dfs(graph->vertices, action, depth, seen);
+	dfs(graph->vertices, action, 0, seen, &max);
 	free(seen);
-	return (depth - 1);
+	return (max);
 }
