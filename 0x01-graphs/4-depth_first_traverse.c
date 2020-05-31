@@ -67,12 +67,9 @@ size_t depth_first_traverse(
 		return (0);
 	v = graph->vertices;
 
-	while (v)
-	{
-		tmp = dfs(v, action, 0, seen);
-		depth = MAX(depth, tmp);
-		v = v->next;
-	}
+	tmp = dfs(v, action, 0, seen);
+	depth = MAX(depth, tmp);
+	v = v->next;
 	free(seen);
 	return (depth > 0 ? depth - 1 : depth); /* TODO: Better way */
 }
