@@ -76,7 +76,7 @@ size_t bfs(vertex_t *vertex,
 	edge_t *edge;
 	vertex_t *v;
 	queue_t *queue;
-	size_t dp = 0, size;
+	size_t dp = 0, size, i;
 
 	queue = calloc(1, sizeof(*queue));
 	if (!queue)
@@ -85,8 +85,7 @@ size_t bfs(vertex_t *vertex,
 		return (0);
 	while (queue->size)
 	{
-		size = queue->size;
-		while (size--)
+		for (i = 0, size = queue->size; i < size; ++i)
 		{
 			v = pop(queue);
 			if (!v)
