@@ -90,16 +90,17 @@ size_t bfs(vertex_t *vertex,
 		for (i = 0, size = queue->size; i < size; ++i)
 		{
 			v = pop(queue);
-			if (!v)
-			return (0);
+			/* if (!v) */
+			/* 	return (0); */
 			action(v, dp);
 			edge = v->edges;
 			for (edge = v->edges; edge; edge = edge->next)
 				if (!seen[edge->dest->index])
 				{
 					seen[edge->dest->index] = 1;
-					if (!push(queue, edge->dest))
-						return (0);
+					push(queue, edge->dest);
+					/* if (!push(queue, edge->dest)) */
+						/* 	return (0); */
 				}
 		}
 		dp += 1;
@@ -130,5 +131,5 @@ size_t breadth_first_traverse(const graph_t *graph,
 	v = graph->vertices;
 	ret = bfs(v, action, seen);
 	free(seen);
-	return (0);
+	return (ret);
 }
