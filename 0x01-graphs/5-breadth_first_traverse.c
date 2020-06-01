@@ -1,6 +1,18 @@
 #include "graphs.h"
 
 /**
+ * free_q - free queue
+ * @q: queue
+ */
+void free_q(queue_t **q)
+{
+	while ((*q)->size)
+		pop(*q);
+	free(*q);
+	*q = NULL;
+}
+
+/**
  * push - push vertex into @queue
  * @queue: queue
  * @v: vertex
@@ -12,7 +24,10 @@ int push(queue_t *queue, vertex_t *v)
 
 	new = calloc(1, sizeof(*new));
 	if (!new)
+	{
+		free_q(&queue);
 		return (0);
+	}
 	new->dest = v;
 	if (!queue->tail)
 	{
@@ -38,7 +53,10 @@ vertex_t *pop(queue_t *queue)
 	edge_t *tmp;
 
 	if (!queue || queue->size == 0 || !queue->head)
+	{
+		/* free(queue); */
 		return (NULL);
+	}
 	v = queue->head->dest;
 	tmp = queue->head;
 	queue->head = queue->head->next;
@@ -84,14 +102,13 @@ size_t bfs(vertex_t *vertex,
 				if (!seen[edge->dest->index])
 				{
 					seen[edge->dest->index] = 1;
-					push(queue, edge->dest);
 					if (!push(queue, edge->dest))
 						return (0);
 				}
 		}
 		dp += 1;
 	}
-	free(queue);
+	free_q(&queue);
 	return (dp > 0 ? dp - 1 : 0);
 }
 
