@@ -1,19 +1,5 @@
 #include "graphs.h"
 
-/* void pq(queue_t *queue) */
-/* { */
-/*	edge_t *node; */
-
-/*	node = queue->head; */
-
-/*	printf("Printing queue\n"); */
-/*	while (node) */
-/*	{ */
-/*		printf("Queue: [%lu] %s\n", node->dest->index, node->dest->content); */
-/*		node = node->next; */
-/*	} */
-/* } */
-
 /**
  * push - push vertex into @queue
  * @queue: queue
@@ -90,8 +76,8 @@ size_t bfs(vertex_t *vertex,
 		for (i = 0, size = queue->size; i < size; ++i)
 		{
 			v = pop(queue);
-			/* if (!v) */
-			/* 	return (0); */
+			if (!v)
+				return (0);
 			action(v, dp);
 			edge = v->edges;
 			for (edge = v->edges; edge; edge = edge->next)
@@ -99,8 +85,8 @@ size_t bfs(vertex_t *vertex,
 				{
 					seen[edge->dest->index] = 1;
 					push(queue, edge->dest);
-					/* if (!push(queue, edge->dest)) */
-						/* 	return (0); */
+					if (!push(queue, edge->dest))
+						return (0);
 				}
 		}
 		dp += 1;
@@ -122,7 +108,6 @@ size_t breadth_first_traverse(const graph_t *graph,
 	vertex_t *v;
 	size_t ret;
 
-	(void) ret;
 	if (!graph || !action || !graph->nb_vertices)
 		return (0);
 	seen = calloc(graph->nb_vertices, sizeof(*seen));
