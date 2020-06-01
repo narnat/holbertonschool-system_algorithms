@@ -121,6 +121,7 @@ size_t breadth_first_traverse(const graph_t *graph,
 	vertex_t *v;
 	size_t ret;
 
+	(void) ret;
 	if (!graph || !action || !graph->nb_vertices)
 		return (0);
 	seen = calloc(graph->nb_vertices, sizeof(*seen));
