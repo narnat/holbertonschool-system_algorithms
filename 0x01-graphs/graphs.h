@@ -6,8 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
 /**
  * enum edge_type_e - Enumerates the different types of
@@ -94,4 +93,6 @@ size_t depth_first_traverse(const graph_t *graph,
 size_t breadth_first_traverse(const graph_t *graph,
 			      void (*action)(const vertex_t *v, size_t depth));
 void graph_display(const graph_t *graph);
+vertex_t *pop(queue_t *queue);
+int push(queue_t *queue, vertex_t *v);
 #endif /* GRAPHS_H */
