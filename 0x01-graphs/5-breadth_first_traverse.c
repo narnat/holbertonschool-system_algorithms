@@ -67,17 +67,16 @@ vertex_t *pop(queue_t *queue)
  * bfs - breadth first traversal of a graph
  * @vertex: starting vertex
  * @action: function to take action
- * @depth: current depth in bfs tree
  * @seen: table of seen vertices
  * Return: depth
 */
 size_t bfs(vertex_t *vertex,
-	   void (*action)(const vertex_t *v, size_t depth), size_t depth, int *seen)
+	   void (*action)(const vertex_t *v, size_t depth), int *seen)
 {
 	edge_t *edge;
 	vertex_t *v;
 	queue_t *queue;
-	size_t dp = depth, size;
+	size_t dp = 0, size;
 
 	queue = calloc(1, sizeof(*queue));
 	if (!queue)
@@ -105,10 +104,11 @@ size_t bfs(vertex_t *vertex,
 				edge = edge->next;
 			}
 		}
-		dp += 1;
+		if (queue->size)
+			dp += 1;
 	}
 	free(queue);
-	return (dp == depth ? dp : dp - 1);
+	return (dp);
 }
 
 /**
@@ -122,7 +122,7 @@ size_t breadth_first_traverse(const graph_t *graph,
 {
 	int *seen = NULL;
 	vertex_t *v;
-	size_t max = 0, ret;
+	size_t ret;
 
 	if (!graph || !action)
 		return (0);
@@ -131,16 +131,7 @@ size_t breadth_first_traverse(const graph_t *graph,
 		return (0);
 	v = graph->vertices;
 
-	while (v)
-	{
-		if (!seen[v->index])
-		{
-			seen[v->index] = 1;
-			ret = bfs(v, action, 0, seen);
-			max = MAX(max, ret);
-		}
-		v = v->next;
-	}
+	ret = bfs(v, action, seen);
 	free(seen);
-	return (max);
+	return (ret);
 }
