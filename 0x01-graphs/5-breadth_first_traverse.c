@@ -129,5 +129,5 @@ size_t breadth_first_traverse(const graph_t *graph,
 	v = graph->vertices;
 	ret = bfs(v, action, seen);
 	free(seen);
-	return (ret);
+	return (0);
 }
