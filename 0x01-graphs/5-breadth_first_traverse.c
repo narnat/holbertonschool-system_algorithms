@@ -78,6 +78,8 @@ size_t bfs(vertex_t *vertex,
 	queue_t *queue;
 	size_t dp = 0, size, i;
 
+	if (!vertex || !action || !seen)
+		return (0);
 	queue = calloc(1, sizeof(*queue));
 	if (!queue)
 		return (0);
@@ -125,7 +127,6 @@ size_t breadth_first_traverse(const graph_t *graph,
 	if (!seen)
 		return (0);
 	v = graph->vertices;
-
 	ret = bfs(v, action, seen);
 	free(seen);
 	return (ret);
