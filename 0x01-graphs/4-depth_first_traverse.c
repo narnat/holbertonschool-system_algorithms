@@ -19,15 +19,9 @@ void dfs(vertex_t *vertex,
 		return;
 	seen[vertex->index] = 1;
 	action(vertex, depth);
-	if (*max < depth)
-		*max = depth;
+	*max = MAX(depth, *max);
+	++depth;
 	edge = vertex->edges;
-	if (edge)
-	{
-		dfs(edge->dest, action, ++depth, seen, max);
-		edge = edge->next;
-	}
-
 	while (edge)
 	{
 		dfs(edge->dest, action, depth, seen, max);
@@ -48,7 +42,7 @@ size_t depth_first_traverse(
 	int *seen = NULL;
 	size_t max = 0;
 
-	if (!graph)
+	if (!graph || !action)
 		return (0);
 	seen = calloc(graph->nb_vertices, sizeof(*seen));
 	if (!seen)
