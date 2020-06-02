@@ -89,6 +89,7 @@ size_t bfs(vertex_t *vertex,
 		return (0);
 	if (!push(queue, vertex))
 		return (0);
+	seen[vertex->index] = 1;
 	while (queue->size)
 	{
 		for (i = 0, size = queue->size; i < size; ++i)
