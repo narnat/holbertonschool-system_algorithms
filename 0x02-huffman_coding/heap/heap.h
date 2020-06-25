@@ -40,4 +40,5 @@ void binary_tree_print(const binary_tree_node_t *root,
 heap_t *heap_create(int (*data_cmp)(void *, void *));
 binary_tree_node_t *binary_tree_node(binary_tree_node_t *parent, void *data);
 binary_tree_node_t *heap_insert(heap_t *heap, void *data);
+void *heap_extract(heap_t *heap);
 #endif /* HEAP_H */

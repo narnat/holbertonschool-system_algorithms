@@ -6,7 +6,7 @@
  * @n: index of node to be inserted
  * Return: parent node which will store the next inserted node
 */
-binary_tree_node_t *get_last_node(binary_tree_node_t *node, size_t n)
+binary_tree_node_t *get_last_parent(binary_tree_node_t *node, size_t n)
 {
 	int index = 0, mask;
 
@@ -78,7 +78,7 @@ binary_tree_node_t *heap_insert(heap_t *heap, void *data)
 	}
 	else
 	{
-		parent = get_last_node(heap->root, heap->size + 1);
+		parent = get_last_parent(heap->root, heap->size + 1);
 		if (!parent->left)
 			parent->left = node;
 		else
