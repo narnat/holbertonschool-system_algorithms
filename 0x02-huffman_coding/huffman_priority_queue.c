@@ -29,6 +29,8 @@ heap_t *huffman_priority_queue(char *data, size_t *freq, size_t size)
 	symbol_t *sym;
 	binary_tree_node_t *node;
 
+	if (!data || !freq)
+		return (NULL);
 	heap = heap_create(node_cmp);
 	if (!heap)
 		return (NULL);
@@ -40,10 +42,8 @@ heap_t *huffman_priority_queue(char *data, size_t *freq, size_t size)
 			return (NULL);
 		}
 		node = binary_tree_node(NULL, (void *)sym);
-		if (!heap_insert(heap, (void *)node))
+		if (!node || !heap_insert(heap, (void *)node))
 		{
-			free(sym);
-			heap_delete(heap, free);
 			return (NULL);
 		}
 	}
