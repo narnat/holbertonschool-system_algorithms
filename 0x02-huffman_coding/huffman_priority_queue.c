@@ -22,6 +22,36 @@ int node_cmp(void *d1, void *d2)
 }
 
 /**
+ * free_node - frees node of priority queue
+ * @p: node
+ */
+void free_node(void *p)
+{
+	binary_tree_node_t *node1, *node2;
+
+	if (!p)
+		return;
+	node1 = p;
+	node2 = node1->data;
+	free(node2->data);
+	free(node2);
+	free(node1);
+}
+
+/**
+ * heap_free - deletes heap
+ * @heap: heap
+ * @free_data: function to free nodes
+ */
+void heap_free(heap_t *heap, void (*free_data)(void *))
+{
+	if (!free_data || !heap)
+		return;
+	free_tree(heap->root, free_data);
+	free(heap);
+}
+
+/**
  * huffman_priority_queue - creates priority queue
  * @data: array of characters
  * @freq: array of frequencies of characters
@@ -45,11 +75,13 @@ heap_t *huffman_priority_queue(char *data, size_t *freq, size_t size)
 		sym = symbol_create(data[i], freq[i]);
 		if (!sym)
 		{
+			heap_free(heap, free_node);
 			return (NULL);
 		}
 		node = binary_tree_node(NULL, (void *)sym);
 		if (!node || !heap_insert(heap, (void *)node))
 		{
+			heap_free(heap, free_node);
 			return (NULL);
 		}
 	}
