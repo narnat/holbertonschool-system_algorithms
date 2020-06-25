@@ -21,4 +21,5 @@ symbol_t *symbol_create(char data, size_t freq);
 heap_t *huffman_priority_queue(char *data, size_t *freq, size_t size);
 void heap_free(heap_t *heap, void (*free_data)(void *));
 void free_node(void *p);
+int huffman_extract_and_insert(heap_t *priority_queue);
 #endif /* HUFFMAN_H */
