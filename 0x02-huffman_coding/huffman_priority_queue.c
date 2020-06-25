@@ -10,8 +10,14 @@
 int node_cmp(void *d1, void *d2)
 {
 	binary_tree_node_t *node1 = d1, *node2 = d2;
-	symbol_t *sym1 = node1->data, *sym2 = node2->data;
+	symbol_t *sym1, *sym2;
 
+	if (!node1)
+		return (-1);
+	sym1 = node1->data;
+	if (!node2)
+		return (1);
+	sym2 = node2->data;
 	return (sym1->freq - sym2->freq);
 }
 
