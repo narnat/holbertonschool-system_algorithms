@@ -23,6 +23,7 @@ void heap_delete(heap_t *heap, void (*free_data)(void *))
 {
 	/* if (!free_data || !heap) */
 	/*	return; */
+	(void) free_data;
 	if (!heap)
 		return;
 	free_tree(heap->root, free);
