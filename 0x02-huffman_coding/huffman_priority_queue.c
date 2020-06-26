@@ -292,7 +292,7 @@ heap_t *huffman_priority_queue(char *data, size_t *freq, size_t size)
 			heap_delete(heap, free_data);
 			return (NULL);
 		}
-		heap_insert_2(heap, (void *)node);
+		heap_insert(heap, (void *)node);
 	}
 	return (heap);
 }
