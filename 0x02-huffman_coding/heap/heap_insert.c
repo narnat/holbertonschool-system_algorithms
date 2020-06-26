@@ -33,6 +33,7 @@ binary_tree_node_t *get_last_parent(binary_tree_node_t *node, size_t n)
 	return (node);
 }
 
+binary_tree_node_t *heapify_min(heap_t *heap, binary_tree_node_t *node);
 /**
  * heapify - heapifies node
  * @heap: heap
@@ -86,5 +87,5 @@ binary_tree_node_t *heap_insert(heap_t *heap, void *data)
 		node->parent = parent;
 	}
 	heap->size += 1;
-	return (heapify(heap, node));
+	return (heapify_min(heap, node));
 }
