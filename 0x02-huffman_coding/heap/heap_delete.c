@@ -11,7 +11,9 @@ void free_tree(binary_tree_node_t *root, void (*free_data)(void *))
 		return;
 	free_tree(root->left, free_data);
 	free_tree(root->right, free_data);
-	free_data(root);
+	if (free_data)
+		free_data(root->data);
+	free(root);
 }
 
 /**
@@ -21,9 +23,6 @@ void free_tree(binary_tree_node_t *root, void (*free_data)(void *))
  */
 void heap_delete(heap_t *heap, void (*free_data)(void *))
 {
-	/* if (!free_data || !heap) */
-	/*	return; */
-	(void) free_data;
 	if (!heap)
 		return;
 	free_tree(heap->root, free);
