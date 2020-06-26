@@ -1,7 +1,7 @@
 #include "heap.h"
 
 /**
- * get_last_node - get the parent where next node should be inserted
+ * get_last_parent - get the parent where next node should be inserted
  * @node: heap
  * @n: index of node to be inserted
  * Return: parent node which will store the next inserted node
