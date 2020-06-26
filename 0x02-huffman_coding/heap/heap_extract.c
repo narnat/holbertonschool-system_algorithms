@@ -100,7 +100,7 @@ void *heap_extract(heap_t *heap)
 		heap->size = 0;
 		return (data);
 	}
-	last_node = get_last_parent(heap->root, heap->size);
+	last_node = get_last_node(heap->root, heap->size);
 	heap->root->data = last_node->data;
 	if (last_node->parent->left == last_node)
 		last_node->parent->left = NULL;
