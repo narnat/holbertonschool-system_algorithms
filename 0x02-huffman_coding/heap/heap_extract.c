@@ -10,7 +10,7 @@ binary_tree_node_t *get_last_node(binary_tree_node_t *node, size_t n)
 {
 	int index = 0, mask;
 
-	for (index = 0; (1 << (index + 1)) < (int)n; index++)
+	for (index = 0; (1 << (index + 1)) <= (int)n; index++)
 		;
 	for (--index; index >= 0; --index)
 	{
@@ -28,35 +28,50 @@ binary_tree_node_t *get_last_node(binary_tree_node_t *node, size_t n)
 }
 
 /**
+ * swap - swap data of two nodes
+ * @n1: node1
+ * @n2: node2
+ */
+void swap(binary_tree_node_t *n1, binary_tree_node_t *n2)
+{
+	void *temp;
+
+	temp = n1->data;
+	n1->data = n2->data;
+	n2->data = temp;
+}
+
+/**
  * sift_down - heapifies node
  * @heap: heap
  * @node: inserted node
  */
 void sift_down(heap_t *heap, binary_tree_node_t *node)
 {
-	void *temp;
-
-	if (!node)
+	if (!node || heap->size < 2)
 		return;
 	while (node)
 	{
-		if (node->left && heap->data_cmp(node->data, node->left->data) > 0)
+		if (node->right && node->left &&
+		    heap->data_cmp(node->data, node->left->data) > 0 &&
+		    heap->data_cmp(node->left->data, node->right->data) < 0)
 		{
-			temp = node->data;
-			node->data = node->left->data;
-			node->left->data = temp;
+			swap(node, node->left);
 			node = node->left;
 		}
 		else if (node->right && heap->data_cmp(node->data, node->right->data) > 0)
 		{
-			temp = node->data;
-			node->data = node->right->data;
-			node->right->data = temp;
+			swap(node, node->right);
 			node = node->right;
+		}
+		else if (node->left && heap->data_cmp(node->data, node->left->data) > 0)
+		{
+			swap(node, node->left);
+			node = node->left;
 		}
 		else
 		{
-			break;
+				break;
 		}
 	}
 }
