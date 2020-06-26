@@ -48,11 +48,12 @@ binary_tree_node_t *heapify(heap_t *heap, binary_tree_node_t *node)
 		return (node);
 	while (node->parent)
 	{
-		if (heap->data_cmp(node->data, node->parent->data) > 0)
-			return (node);
-		temp = node->data;
-		node->data = node->parent->data;
-		node->parent->data = temp;
+		if (heap->data_cmp(node->parent->data, node->data) > 0)
+		{
+			temp = node->data;
+			node->data = node->parent->data;
+			node->parent->data = temp;
+		}
 		node = node->parent;
 	}
 	return (node);
