@@ -151,7 +151,7 @@ int huffman_extract_and_insert_2(heap_t *priority_queue)
  * @priority_queue: priority queue which needs to be
  * converted into huffman tree
  * Return: 1 on success or 0 on failure
-*/
+ */
 int huffman_extract_and_insert(heap_t *priority_queue)
 {
 	binary_tree_node_t *node1, *node2, *new;
@@ -161,8 +161,8 @@ int huffman_extract_and_insert(heap_t *priority_queue)
 	/* TODO: do not extract nodes with data == -1 */
 	if (!priority_queue || priority_queue->size < 2)
 		return (0);
-	node1 = heap_extract_2(priority_queue);
-	node2 = heap_extract_2(priority_queue);
+	node1 = heap_extract(priority_queue);
+	node2 = heap_extract(priority_queue);
 	if (node1)
 		freq += ((symbol_t *)node1->data)->freq;
 	if (node2)
