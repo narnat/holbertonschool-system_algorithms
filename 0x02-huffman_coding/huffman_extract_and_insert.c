@@ -124,8 +124,8 @@ int huffman_extract_and_insert(heap_t *priority_queue)
 		return (0);
 	}
 	new_n->data = (void *)new_s;
-	left = (binary_tree_node_t *)heap_extract_2(priority_queue);
-	right = (binary_tree_node_t *)heap_extract_2(priority_queue);
+	left = (binary_tree_node_t *)heap_extract(priority_queue);
+	right = (binary_tree_node_t *)heap_extract(priority_queue);
 	new_n->left = left;
 	if (left)
 		left->parent = new_n;
