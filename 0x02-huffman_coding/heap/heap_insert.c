@@ -10,7 +10,7 @@ binary_tree_node_t *get_last_parent(binary_tree_node_t *node, size_t n)
 {
 	int index = 0, mask;
 
-	for (index = 0; (1 << index) + 1 < (int)n; ++index)
+	for (index = 0; 1 << (index + 1) <= (int)n; ++index)
 		;
 	for (--index; index >= 0; --index)
 	{
