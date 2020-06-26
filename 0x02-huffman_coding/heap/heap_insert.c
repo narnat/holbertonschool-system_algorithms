@@ -1,12 +1,13 @@
 #include "heap.h"
 
 /**
- * get_last_parent - get the parent where next node should be inserted
+ * get_nth_node - get the nth node where next node should be inserted
  * @node: heap
  * @n: index of node to be inserted
- * Return: parent node which will store the next inserted node
-*/
-binary_tree_node_t *get_last_parent(binary_tree_node_t *node, size_t n)
+ * Return: parent if n is +1 than size or nth
+ * node which will store the next inserted node
+ */
+binary_tree_node_t *get_nth_node(binary_tree_node_t *node, size_t n)
 {
 	int index = 0, mask;
 
@@ -33,7 +34,6 @@ binary_tree_node_t *get_last_parent(binary_tree_node_t *node, size_t n)
 	return (node);
 }
 
-binary_tree_node_t *heapify_min(heap_t *heap, binary_tree_node_t *node);
 /**
  * heapify - heapifies node
  * @heap: heap
@@ -79,7 +79,7 @@ binary_tree_node_t *heap_insert(heap_t *heap, void *data)
 	}
 	else
 	{
-		parent = get_last_parent(heap->root, heap->size + 1);
+		parent = get_nth_node(heap->root, heap->size + 1);
 		if (!parent->left)
 			parent->left = node;
 		else
@@ -87,5 +87,5 @@ binary_tree_node_t *heap_insert(heap_t *heap, void *data)
 		node->parent = parent;
 	}
 	heap->size += 1;
-	return (heapify_min(heap, node));
+	return (heapify(heap, node));
 }
