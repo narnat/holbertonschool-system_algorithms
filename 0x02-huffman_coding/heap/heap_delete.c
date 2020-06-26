@@ -25,6 +25,6 @@ void heap_delete(heap_t *heap, void (*free_data)(void *))
 {
 	if (!heap)
 		return;
-	free_tree(heap->root, free);
+	free_tree(heap->root, free_data);
 	free(heap);
 }
