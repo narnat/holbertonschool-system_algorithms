@@ -10,7 +10,7 @@ binary_tree_node_t *get_last_node(binary_tree_node_t *node, size_t n)
 {
 	int index = 0, mask;
 
-	for (index = 0; (1 << (index + 1)) <= (int)n; index++)
+	for (index = 0; (1 << (index + 1)) <= (int)n; ++index)
 		;
 	for (--index; index >= 0; --index)
 	{
@@ -40,6 +40,8 @@ void swap(binary_tree_node_t *n1, binary_tree_node_t *n2)
 	n1->data = n2->data;
 	n2->data = temp;
 }
+
+void heapify_down(heap_t *heap);
 
 /**
  * sift_down - heapifies node
@@ -76,6 +78,8 @@ void sift_down(heap_t *heap, binary_tree_node_t *node)
 	}
 }
 
+binary_tree_node_t *get_last_parent(binary_tree_node_t *node, size_t n);
+
 /**
  * heap_extract - extracts root node from heap (min value)
  * @heap: heap
@@ -86,24 +90,25 @@ void *heap_extract(heap_t *heap)
 	binary_tree_node_t *last_node;
 	void *data;
 
-	if (!heap || !heap->root)
+	if (!heap || !heap->root || heap->size == 0)
 		return (NULL);
 	data = heap->root->data;
-	last_node = get_last_node(heap->root, heap->size);
-	heap->root->data = last_node->data;
-	if (last_node->parent)
+	if (heap->size == 1)
 	{
-		if (last_node->parent->left == last_node)
-			last_node->parent->left = NULL;
-		else
-			last_node->parent->right = NULL;
-	}
-	else
-	{
+		free(heap->root);
 		heap->root = NULL;
+		heap->size = 0;
+		return (data);
 	}
+	last_node = get_last_parent(heap->root, heap->size);
+	heap->root->data = last_node->data;
+	if (last_node->parent->left == last_node)
+		last_node->parent->left = NULL;
+	else
+		last_node->parent->right = NULL;
 	free(last_node);
 	heap->size -= 1;
-	sift_down(heap, heap->root);
+	/* sift_down(heap, heap->root); */
+	heapify_down(heap);
 	return (data);
 }
