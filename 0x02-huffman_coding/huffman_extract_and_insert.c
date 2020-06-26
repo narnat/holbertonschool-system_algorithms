@@ -1,6 +1,19 @@
 #include "huffman.h"
 
-void swap_nodes(binary_tree_node_t *node1, binary_tree_node_t *node2);
+/**
+ * swap_nodes - swap 2 nodes values
+ * @node1: node to swap
+ * @node2: node to swap
+ */
+void swap_nodes(binary_tree_node_t *node1, binary_tree_node_t *node2)
+{
+	void *tmp;
+
+	tmp = node1->data;
+	node1->data = node2->data;
+	node2->data = tmp;
+}
+
 /**
  * struct queue_s - Queue data structure
  * @node: binary tree node
@@ -12,6 +25,83 @@ typedef struct queue_s
 	struct queue_s *next;
 } queue_t;
 
+
+/*prepare level order traversal: queue functions*/
+/**
+ * free_queue - free a queue
+ * @head: head of queue
+ */
+void free_queue(queue_t **head)
+{
+	queue_t *tmp;
+
+	if (!head)
+		return;
+
+	while (*head)
+	{
+		tmp = *head;
+		*head = (*head)->next;
+		free(tmp);
+	}
+}
+
+/**
+ * enqueue - enqueue an element
+ * @head: head of queue
+ * @node: node to insert in the end
+ * Return: pointer to created node
+ */
+queue_t *enqueue(queue_t **head, binary_tree_node_t *node)
+{
+	queue_t *new, *tmp;
+
+	if (!head || !node)
+		return (NULL);
+	new =  malloc(sizeof(queue_t));
+	if (!new)
+	{
+		free_queue(head);
+		return (NULL);
+	}
+	new->node = node;
+	new->next = NULL;
+	if (!*head)
+	{
+		*head = new;
+	}
+	else
+	{
+		tmp = *head;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+	return (new);
+}
+
+/**
+ * dequeue - pop an element from a queue
+ * @queue: pointer to a queue head
+ * Return: the value of the popped node
+ */
+binary_tree_node_t *dequeue(queue_t **queue)
+{
+	queue_t *first;
+	binary_tree_node_t *node;
+
+	if (!queue || !*queue)
+		return (NULL);
+
+	first = *queue;
+	*queue = first->next;
+	node = first->node;
+	free(first);
+	return (node);
+}
+
+
+void swap_nodes(binary_tree_node_t *node1, binary_tree_node_t *node2);
 queue_t *enqueue(queue_t **head, binary_tree_node_t *node);
 binary_tree_node_t *dequeue(queue_t **queue);
 
@@ -161,8 +251,8 @@ int huffman_extract_and_insert(heap_t *priority_queue)
 	/* TODO: do not extract nodes with data == -1 */
 	if (!priority_queue || priority_queue->size < 2)
 		return (0);
-	node1 = heap_extract(priority_queue);
-	node2 = heap_extract(priority_queue);
+	node1 = heap_extract_2(priority_queue);
+	node2 = heap_extract_2(priority_queue);
 	if (node1)
 		freq += ((symbol_t *)node1->data)->freq;
 	if (node2)
