@@ -79,7 +79,7 @@ void *heap_extract(heap_t *heap)
 		last_node->parent->right = NULL;
 	free(last_node);
 	heap->size -= 1;
-	sift_down(heap, heap->root);
-	/* heapify_down(heap); */
+	/* sift_down(heap, heap->root); */
+	heapify_down(heap);
 	return (data);
 }
