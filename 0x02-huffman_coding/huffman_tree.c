@@ -22,12 +22,12 @@ binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size)
 	{
 		if (!huffman_extract_and_insert(heap))
 		{
-			heap_delete(heap, free_node);
-			return (NULL);
+			/* heap_delete(heap, free_node); */
+			/* return (NULL); */
+			break;
 		}
 	}
-	tree = heap->root->data;
-	free(heap->root);
-	free(heap);
+	tree = heap_extract(heap);
+	heap_delete(heap, free_node);
 	return (tree);
 }
