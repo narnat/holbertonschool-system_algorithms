@@ -56,19 +56,19 @@ void *heap_extract(heap_t *heap)
 	if (!heap || !heap->root || heap->size == 0)
 		return (NULL);
 	data = heap->root->data;
-	if (heap->size == 1)
-	{
-		free(heap->root);
-		heap->root = NULL;
-		heap->size = 0;
-		return (data);
-	}
 	last_node = get_nth_node(heap->root, heap->size);
 	heap->root->data = last_node->data;
-	if (last_node->parent->left == last_node)
-		last_node->parent->left = NULL;
+	if (last_node->parent)
+	{
+		if (last_node->parent->left == last_node)
+			last_node->parent->left = NULL;
+		else
+			last_node->parent->right = NULL;
+	}
 	else
-		last_node->parent->right = NULL;
+	{
+		heap->root = NULL;
+	}
 	free(last_node);
 	heap->size -= 1;
 	sift_down(heap, heap->root);
