@@ -318,6 +318,50 @@ void *heap_extract_2(heap_t *heap)
 	return (data);
 }
 
+int huffman_extract_and_insert_2(heap_t *priority_queue)
+{
+	binary_tree_node_t *new_n, *left, *right;
+	symbol_t *new_s;
+	size_t freq;
+
+	if (!priority_queue)
+		return (0);
+
+	if (priority_queue->size < 2)
+		return (0);
+
+	new_n = malloc(sizeof(binary_tree_node_t));
+	if (!new_n)
+		return (0);
+	new_s = malloc(sizeof(symbol_t));
+	if (!new_s)
+	{
+		free(new_n);
+		return (0);
+	}
+	new_n->data = (void *)new_s;
+	left = (binary_tree_node_t *)heap_extract_2(priority_queue);
+	right = (binary_tree_node_t *)heap_extract_2(priority_queue);
+	new_n->left = left;
+	if (left)
+		left->parent = new_n;
+	new_n->right = right;
+	if (right)
+		right->parent = new_n;
+	freq = 0;
+	new_n->parent = NULL;
+	if (left)
+		if (left->data)
+			freq += ((symbol_t *)(left->data))->freq;
+	if (right)
+		if (right->data)
+			freq += ((symbol_t *)(right->data))->freq;
+	new_s->freq = freq;
+	new_s->data = -1;
+	heap_insert_2(priority_queue, (void *)new_n);
+	return (1);
+}
+
 /**
  * huffman_priority_queue - create a min heap with arrays of data and freq
  * @data: data to store in a priority queue
@@ -379,7 +423,7 @@ binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size)
 		return (NULL);
 	while (heap->size > 1)
 	{
-		if (!huffman_extract_and_insert(heap))
+		if (!huffman_extract_and_insert_2(heap))
 		{
 			/* heap_delete(heap, free_node); */
 			/* return (NULL); */
