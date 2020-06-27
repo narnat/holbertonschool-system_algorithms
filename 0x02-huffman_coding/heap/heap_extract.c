@@ -23,31 +23,24 @@ void heapify_down(heap_t *heap);
  */
 void sift_down(heap_t *heap, binary_tree_node_t *node)
 {
+	binary_tree_node_t *smallest;
 	if (!node || heap->size < 2)
 		return;
 	while (node)
 	{
-		if (node->right && node->left &&
-		    heap->data_cmp(node->data, node->left->data) > 0 &&
-		    heap->data_cmp(node->left->data, node->right->data) < 0)
+		smallest = node;
+		if (node->left && heap->data_cmp(smallest->data, node->left->data) > 0)
 		{
-			swap(node, node->left);
-			node = node->left;
+			smallest = node->left;
 		}
-		else if (node->right && heap->data_cmp(node->data, node->right->data) > 0)
+		if (node->right && heap->data_cmp(smallest->data, node->right->data) > 0)
 		{
-			swap(node, node->right);
-			node = node->right;
+			smallest = node->right;
 		}
-		else if (node->left && heap->data_cmp(node->data, node->left->data) > 0)
-		{
-			swap(node, node->left);
-			node = node->left;
-		}
-		else
-		{
-				break;
-		}
+		if (smallest == node)
+			break;
+		swap(smallest, node);
+		node = smallest;
 	}
 }
 
@@ -79,7 +72,7 @@ void *heap_extract(heap_t *heap)
 		last_node->parent->right = NULL;
 	free(last_node);
 	heap->size -= 1;
-	/* sift_down(heap, heap->root); */
-	heapify_down(heap);
+	sift_down(heap, heap->root);
+	/* heapify_down(heap); */
 	return (data);
 }
