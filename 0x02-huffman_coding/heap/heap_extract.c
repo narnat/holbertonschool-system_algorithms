@@ -29,11 +29,11 @@ void sift_down(heap_t *heap, binary_tree_node_t *node)
 	while (node)
 	{
 		smallest = node;
-		if (node->left && heap->data_cmp(smallest->data, node->left->data) > 0)
+		if (node->left && heap->data_cmp(smallest->data, node->left->data) >= 0)
 		{
 			smallest = node->left;
 		}
-		if (node->right && heap->data_cmp(smallest->data, node->right->data) > 0)
+		if (node->right && heap->data_cmp(smallest->data, node->right->data) >= 0)
 		{
 			smallest = node->right;
 		}
