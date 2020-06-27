@@ -47,13 +47,13 @@ void sift_down(heap_t *heap, binary_tree_node_t *node)
  * heap_extract - extracts root node from heap (min value)
  * @heap: heap
  * Return: data of root node
-*/
+ */
 void *heap_extract(heap_t *heap)
 {
 	binary_tree_node_t *last_node;
 	void *data;
 
-	if (!heap || !heap->root || heap->size == 0)
+	if (!heap || !heap->root || heap->size <= 0)
 		return (NULL);
 	data = heap->root->data;
 	last_node = get_nth_node(heap->root, heap->size);
