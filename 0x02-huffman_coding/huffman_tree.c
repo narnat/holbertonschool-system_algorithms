@@ -1,3 +1,4 @@
+#include "heap/heap.h"
 #include "huffman.h"
 
 /**
@@ -10,6 +11,7 @@
 binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size)
 {
 	heap_t *heap;
+	binary_tree_node_t *tree;
 
 	if (!data || !freq || size == 0)
 		return (NULL);
@@ -24,5 +26,8 @@ binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size)
 			return (NULL);
 		}
 	}
-	return (heap->root->data);
+	tree = heap->root->data;
+	free(heap->root);
+	free(heap);
+	return (tree);
 }
