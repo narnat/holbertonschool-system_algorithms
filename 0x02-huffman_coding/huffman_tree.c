@@ -14,7 +14,7 @@ binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size)
 	binary_tree_node_t *tree;
 
 	/* if (!data || !freq || size == 0) */
-	/* 	return (NULL); */
+	/*	return (NULL); */
 	heap = huffman_priority_queue(data, freq, size);
 	if (!heap)
 		return (NULL);
@@ -27,7 +27,8 @@ binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size)
 			break;
 		}
 	}
-	tree = heap_extract(heap);
-	heap_delete(heap, free_node);
+	tree = heap->root->data;
+	free(heap->root);
+	free(heap);
 	return (tree);
 }
