@@ -448,7 +448,7 @@ binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size)
 		return (NULL);
 	while (heap->size > 1)
 	{
-		if (!huffman_extract_and_insert(heap))
+		if (!huffman_extract_and_insert_2(heap))
 		{
 			/* heap_delete(heap, free_node); */
 			/* return (NULL); */
