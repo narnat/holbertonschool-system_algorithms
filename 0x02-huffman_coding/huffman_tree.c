@@ -414,14 +414,14 @@ heap_t *huffman_priority_queue_2(char *data, size_t *freq, size_t size)
 		new = symbol_create(data[i], freq[i]);
 		if (!new)
 		{
-			heap_delete_2(heap, free_data);
+			heap_delete(heap, free_data);
 			return (NULL);
 		}
 		node = binary_tree_node_2(NULL, (void *)new);
 		if (!node)
 		{
 			free(new);
-			heap_delete_2(heap, free_data);
+			heap_delete(heap, free_data);
 			return (NULL);
 		}
 		heap_insert_2(heap, (void *)node);
