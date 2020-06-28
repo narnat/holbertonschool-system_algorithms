@@ -26,4 +26,5 @@ void binary_tree_print(const binary_tree_node_t *heap,
 		       int (*print_data)(char *, void *));
 int nested_print(char *buffer, void *data);
 binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size);
+int huffman_codes(char *data, size_t *freq, size_t size);
 #endif /* HUFFMAN_H */

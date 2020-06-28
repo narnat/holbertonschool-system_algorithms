@@ -31,10 +31,11 @@ void free_node(void *p)
 
 	if (!p)
 		return;
+	(void) node2;
 	node1 = p;
-	node2 = node1->data;
-	free(node2->data);
-	free(node2);
+	/* node2 = node1->data; */
+	/* free(node2->data); */
+	/* free(node2); */
 	free(node1);
 }
 
