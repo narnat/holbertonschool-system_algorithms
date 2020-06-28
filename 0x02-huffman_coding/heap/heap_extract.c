@@ -37,10 +37,14 @@ void sift_down(heap_t *heap)
 		{
 			largest = node->right;
 		}
-		if (largest == node)
-			break;
-		swap(largest, node);
-		node = largest;
+		if (largest != node)
+		{
+			swap(largest, node);
+			node = largest;
+		}
+		else {
+			node = node->left;
+		}
 	}
 }
 
