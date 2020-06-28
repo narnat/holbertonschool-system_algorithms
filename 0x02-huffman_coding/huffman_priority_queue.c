@@ -38,8 +38,6 @@ void free_node(void *p)
 	free(node1);
 }
 
-binary_tree_node_t *binary_tree_node_2(binary_tree_node_t *parent, void *data);
-
 /**
  * huffman_priority_queue - creates priority queue
  * @data: array of characters
@@ -69,7 +67,7 @@ heap_t *huffman_priority_queue(char *data, size_t *freq, size_t size)
 			heap_delete(heap, free_node);
 			return (NULL);
 		}
-		node = binary_tree_node_2(NULL, (void *)sym);
+		node = binary_tree_node(NULL, (void *)sym);
 		if (!node || !heap_insert(heap, (void *)node))
 		{
 			free(sym);
