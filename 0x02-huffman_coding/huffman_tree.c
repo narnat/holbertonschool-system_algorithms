@@ -417,7 +417,7 @@ heap_t *huffman_priority_queue_2(char *data, size_t *freq, size_t size)
 			heap_delete(heap, free_data);
 			return (NULL);
 		}
-		node = binary_tree_node(NULL, (void *)new);
+		node = binary_tree_node_2(NULL, (void *)new);
 		if (!node)
 		{
 			free(new);
