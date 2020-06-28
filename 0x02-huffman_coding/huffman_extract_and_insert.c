@@ -1,8 +1,5 @@
 #include "huffman.h"
 
-binary_tree_node_t *heap_insert_2(heap_t *heap, void *data);
-void *heap_extract_2(heap_t *heap);
-
 /**
  * huffman_extract_and_insert - creates huffman tree
  * @priority_queue: priority queue which needs to be
