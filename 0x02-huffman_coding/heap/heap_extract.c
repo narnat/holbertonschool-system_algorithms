@@ -19,12 +19,13 @@ void swap(binary_tree_node_t *n1, binary_tree_node_t *n2)
  * @heap: heap
  * @node: inserted node
  */
-void sift_down(heap_t *heap, binary_tree_node_t *node)
+void sift_down(heap_t *heap)
 {
-	binary_tree_node_t *largest;
+	binary_tree_node_t *largest, *node;
 
-	if (!node || heap->size < 2)
+	if (!heap || !heap->root || heap->size < 2)
 		return;
+	node = heap->root;
 	while (node)
 	{
 		largest = node;
@@ -107,7 +108,6 @@ void *heap_extract(heap_t *heap)
 	}
 	free(last_node);
 	heap->size -= 1;
-	/* sift_down(heap, heap->root); */
-	heapify_down(heap);
+	sift_down(heap);
 	return (data);
 }
