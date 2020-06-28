@@ -33,7 +33,7 @@ void sift_down(heap_t *heap)
 		{
 			largest = node->left;
 		}
-		if (node->right && heap->data_cmp(largest->data, node->right->data) >= 0)
+		if (node->right && heap->data_cmp(largest->data, node->right->data) > 0)
 		{
 			largest = node->right;
 		}
