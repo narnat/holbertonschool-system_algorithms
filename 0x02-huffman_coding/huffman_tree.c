@@ -121,6 +121,31 @@ binary_tree_node_t *dequeue(queue_t **queue)
 	return (node);
 }
 
+void free_binary_tree(binary_tree_node_t *node, void (*free_data)(void *))
+{
+	if (!node)
+		return;
+	free_binary_tree(node->left, free_data);
+	free_binary_tree(node->right, free_data);
+	if (free_data != NULL)
+		free_data(node->data);
+	free(node);
+}
+
+/**
+ * heap_delete - frees a heap struct
+ * @heap: a heap structure
+ * @free_data: function to state if the data must be freed (no if NULL)
+ */
+void heap_delete_2(heap_t *heap, void (*free_data)(void *))
+{
+	if (!heap)
+		return;
+
+	free_binary_tree(heap->root, free_data);
+	free(heap);
+}
+
 /**
  * heapify_min - percolate up in a min heap
  * @heap: heap structure
@@ -389,14 +414,14 @@ heap_t *huffman_priority_queue_2(char *data, size_t *freq, size_t size)
 		new = symbol_create(data[i], freq[i]);
 		if (!new)
 		{
-			heap_delete(heap, free_data);
+			heap_delete_2(heap, free_data);
 			return (NULL);
 		}
-		node = binary_tree_node(NULL, (void *)new);
+		node = binary_tree_node_2(NULL, (void *)new);
 		if (!node)
 		{
 			free(new);
-			heap_delete(heap, free_data);
+			heap_delete_2(heap, free_data);
 			return (NULL);
 		}
 		heap_insert_2(heap, (void *)node);
