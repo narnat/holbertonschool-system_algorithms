@@ -388,48 +388,6 @@ int huffman_extract_and_insert_2(heap_t *priority_queue)
 }
 
 /**
- * huffman_priority_queue - create a min heap with arrays of data and freq
- * @data: data to store in a priority queue
- * @freq: frequency associated with each data
- * @size: size of data and freq arrays
- * Return: pointer to the created min heap or NULL
- */
-heap_t *huffman_priority_queue_2(char *data, size_t *freq, size_t size)
-{
-	size_t i;
-	heap_t *heap;
-	symbol_t *new;
-	binary_tree_node_t *node;
-
-	if (!data || !freq || size <= 0)
-		return (NULL);
-
-	heap = heap_create(freq_cmp);
-	if (!heap)
-		return (NULL);
-	for (i = 0; i < size; ++i)
-	{
-		if (freq[i] == 0)
-			continue;
-		new = symbol_create(data[i], freq[i]);
-		if (!new)
-		{
-			heap_delete(heap, free_data);
-			return (NULL);
-		}
-		node = binary_tree_node_2(NULL, (void *)new);
-		if (!node)
-		{
-			free(new);
-			heap_delete(heap, free_data);
-			return (NULL);
-		}
-		heap_insert_2(heap, (void *)node);
-	}
-	return (heap);
-}
-
-/**
  * huffman_tree - builds a Huffman tree
  * @data: array of character
  * @freq: frequencies of each character of @data
@@ -448,7 +406,7 @@ binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size)
 		return (NULL);
 	while (heap->size > 1)
 	{
-		if (!huffman_extract_and_insert_2(heap))
+		if (!huffman_extract_and_insert(heap))
 		{
 			/* heap_delete(heap, free_node); */
 			/* return (NULL); */
