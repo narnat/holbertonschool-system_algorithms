@@ -17,7 +17,6 @@ void swap(binary_tree_node_t *n1, binary_tree_node_t *n2)
 /**
  * sift_down - heapifies node
  * @heap: heap
- * @node: inserted node
  */
 void sift_down(heap_t *heap)
 {
