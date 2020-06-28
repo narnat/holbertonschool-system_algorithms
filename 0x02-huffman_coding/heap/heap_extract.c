@@ -43,6 +43,8 @@ void sift_down(heap_t *heap, binary_tree_node_t *node)
 	}
 }
 
+void heapify_down(heap_t *heap);
+
 /**
  * heap_extract - extracts root node from heap (min value)
  * @heap: heap
@@ -71,6 +73,7 @@ void *heap_extract(heap_t *heap)
 	}
 	free(last_node);
 	heap->size -= 1;
-	sift_down(heap, heap->root);
+	/* sift_down(heap, heap->root); */
+	heapify_down(heap);
 	return (data);
 }
