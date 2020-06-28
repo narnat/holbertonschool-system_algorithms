@@ -443,12 +443,12 @@ binary_tree_node_t *huffman_tree(char *data, size_t *freq, size_t size)
 
 	if (!data || !freq || size == 0)
 		return (NULL);
-	heap = huffman_priority_queue_2(data, freq, size);
+	heap = huffman_priority_queue(data, freq, size);
 	if (!heap)
 		return (NULL);
 	while (heap->size > 1)
 	{
-		if (!huffman_extract_and_insert_2(heap))
+		if (!huffman_extract_and_insert(heap))
 		{
 			/* heap_delete(heap, free_node); */
 			/* return (NULL); */
