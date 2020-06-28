@@ -36,7 +36,7 @@ int huffman_extract_and_insert(heap_t *priority_queue)
 		node1->parent = new;
 	if (node2)
 		node2->parent = new;
-	if (!heap_insert_2(priority_queue, (void *)new))
+	if (!heap_insert(priority_queue, (void *)new))
 		return (0);
 	return (1);
 }
