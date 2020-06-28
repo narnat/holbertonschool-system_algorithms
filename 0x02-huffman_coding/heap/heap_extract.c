@@ -44,42 +44,6 @@ void sift_down(heap_t *heap)
 }
 
 /**
- * heapify_down - dive the root to its normal place
- * @heap: heap struct
- * if a node has one child it is a left child as a heap is complete
- * beware with cmp, node->data can be a binary_tree_node, so the function
- * will have to go deeper
- */
-void heapify_down(heap_t *heap)
-{
-	binary_tree_node_t *node;
-
-	if (!heap || !heap->root || !(heap->root)->left)
-		return;
-
-	node = heap->root;
-	while (node->left)
-	{
-		if (node->right &&
-		    heap->data_cmp(node->right->data,
-				  node->left->data) < 0 &&
-		    heap->data_cmp(node->data,
-				  node->right->data) >= 0)
-		{
-			swap(node->right, node);
-			node = node->right;
-			continue;
-		}
-		else if (heap->data_cmp(node->left->data,
-				       node->data) <= 0)
-		{
-			swap(node->left, node);
-		}
-		node = node->left;
-	}
-}
-
-/**
  * heap_extract - extracts root node from heap (min value)
  * @heap: heap
  * Return: data of root node
