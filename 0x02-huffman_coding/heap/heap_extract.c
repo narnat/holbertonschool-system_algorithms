@@ -26,7 +26,7 @@ void sift_down(heap_t *heap)
 	if (!heap || !heap->root || heap->size < 2)
 		return;
 	node = heap->root;
-	while (node)
+	while (node->left)
 	{
 		largest = node;
 		if (node->left && heap->data_cmp(largest->data, node->left->data) >= 0)
