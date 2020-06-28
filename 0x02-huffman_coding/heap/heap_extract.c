@@ -29,13 +29,13 @@ void sift_down(heap_t *heap)
 	while (node->left)
 	{
 		largest = node->left;
-		if (node->right && heap->data_cmp(node->right->data, node->data) <= 0
+		if (node->right && heap->data_cmp(node->right->data, node->data) < 0
 		    && heap->data_cmp(node->right->data, node->left->data) < 0)
 		{
 			swap(node, node->right);
 			largest = node->right;
 		}
-		else if (heap->data_cmp(node->left->data, node->data) >= 0)
+		else if (heap->data_cmp(node->left->data, node->data) <= 0)
 		{
 			swap(node, node->left);
 		}
