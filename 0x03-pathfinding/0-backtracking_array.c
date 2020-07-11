@@ -73,7 +73,7 @@ queue_t *backtracking_helper(queue_t **queue, int *visited, char **map,
 			     int rows, int cols, int x, int y,
 			     point_t const *target)
 {
-	queue_t *q;
+	queue_t *q = NULL;
 	point_t *p;
 
 	if (x < 0 || x >= cols || y < 0 || y >= rows ||
@@ -97,12 +97,6 @@ queue_t *backtracking_helper(queue_t **queue, int *visited, char **map,
 	if (x == target->x && y == target->y)
 		return (*queue);
 	*(visited + y * cols + x) = 1;
-	q = queue_create();
-	if (!q)
-	{
-		queue_free(queue);
-		return (NULL);
-	}
 	if (backtracking_helper(&q, visited, map, rows, cols, x + 1, y, target))
 		return (merge_queue(*queue, q));
 	if (backtracking_helper(&q, visited, map, rows, cols, x, y + 1, target))
