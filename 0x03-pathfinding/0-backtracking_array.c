@@ -38,23 +38,22 @@ int backtracking_helper(queue_t **queue, int *visited, char **map,
 			int rows, int cols, int x, int y,
 			     point_t const *target)
 {
+	int arr[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}}, i;
+
 	if (x < 0 || x >= cols || y < 0 || y >= rows ||
 	    map[y][x] == '1' || *(visited + y * cols + x) == 1)
-	{
 		return (0);
-	}
+
 	printf("Checking coordinates [%d, %d]\n", x, y);
 	if (x == target->x && y == target->y)
 		return (add_point(queue, x, y));
 	*(visited + y * cols + x) = 1;
-	if (backtracking_helper(queue, visited, map, rows, cols, x + 1, y, target))
-		return (add_point(queue, x, y));
-	if (backtracking_helper(queue, visited, map, rows, cols, x, y + 1, target))
-		return (add_point(queue, x, y));
-	if (backtracking_helper(queue, visited, map, rows, cols, x - 1, y, target))
-		return (add_point(queue, x, y));
-	if (backtracking_helper(queue, visited, map, rows, cols, x, y - 1, target))
-		return (add_point(queue, x, y));
+
+	for (i = 0; i < 4; ++i)
+		if (backtracking_helper(queue, visited, map, rows, cols,
+					x + arr[i][0], y + arr[i][1], target))
+			return (add_point(queue, x, y));
+
 	*(visited + y * cols + x) = 0;
 	return (0);
 }
