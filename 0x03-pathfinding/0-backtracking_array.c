@@ -34,11 +34,10 @@ int add_point(queue_t **queue, int x, int y)
  * @target: target point
  * Return: queue with points or NULL if failed
 */
-int backtracking_helper(queue_t **queue, int *visited, char **map,
-			int rows, int cols, int x, int y,
-			     point_t const *target)
+int backtracking_helper(queue_t **queue, int *visited, char **map, int rows,
+			int cols, int x, int y, point_t const *target)
 {
-	int arr[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}}, i;
+	int arr[][2] = {RIGHT, BOTTOM, LEFT, TOP}, i;
 
 	if (x < 0 || x >= cols || y < 0 || y >= rows ||
 	    map[y][x] == '1' || *(visited + y * cols + x) == 1)
@@ -53,8 +52,6 @@ int backtracking_helper(queue_t **queue, int *visited, char **map,
 		if (backtracking_helper(queue, visited, map, rows, cols,
 					x + arr[i][0], y + arr[i][1], target))
 			return (add_point(queue, x, y));
-
-	/* *(visited + y * cols + x) = 0; */
 	return (0);
 }
 
