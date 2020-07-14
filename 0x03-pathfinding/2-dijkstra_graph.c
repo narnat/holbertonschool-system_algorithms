@@ -4,6 +4,15 @@
 #include <limits.h>
 #include <string.h>
 
+/**
+ * get_min - get min distance vertex from @dist array:
+ * @set: set where distances have already been calculated, hence min dist is
+ * not considered to vertex inside this set (in this case boolean array)
+ * @dist: array with distances to vertex from src vertex
+ * @graph: a graph
+ * Return: a min distance vertex or NULL if failed or
+ * there are no more vertices
+*/
 vertex_t *get_min(int *set, size_t *dist, graph_t *graph)
 {
 	size_t min = ULONG_MAX;
@@ -21,6 +30,16 @@ vertex_t *get_min(int *set, size_t *dist, graph_t *graph)
 
 }
 
+/**
+ * calculate_distance - main logic of Dijkstra's algorithm
+ * @graph: a graph
+ * @start: source vertex
+ * @set: set where distances have already been calculated, hence min dist is
+ * not considered to vertex inside this set (in this case boolean array)
+ * @dist: array with distances to vertex from src vertex
+ * @parent: parent array where path is stored, used to retrieve path
+ * from src to destination
+*/
 void calculate_distance(graph_t *graph, vertex_t const *start,
 			int *set, size_t *dist, vertex_t **parent)
 {
@@ -31,9 +50,6 @@ void calculate_distance(graph_t *graph, vertex_t const *start,
 		return;
 	while ((vertex = get_min(set, dist, graph)))
 	{
-		/* vertex = get_min(set, dist, graph); */
-		/* if (!vertex) */
-		/* 	break; */
 		set[vertex->index] = 1;
 		edge = vertex->edges;
 		printf("Checking %s, distance from %s is %lu\n",
@@ -50,6 +66,12 @@ void calculate_distance(graph_t *graph, vertex_t const *start,
 	}
 }
 
+/**
+ * get_path - retrieve path from src to dest from @parent array
+ * @parent: parent array where path is stored, used to retrieve path
+ * @target: target vertex
+ * Return: a queue with full path from src to @target
+*/
 queue_t *get_path(vertex_t **parent, vertex_t const *target)
 {
 	size_t i = target->index;
@@ -87,15 +109,23 @@ queue_t *get_path(vertex_t **parent, vertex_t const *target)
 	return (q);
 }
 
-queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start, vertex_t const *target)
+/**
+ * dijkstra_graph - Dijkstra's algorithm
+ * @graph: a graph
+ * @start: source vertex
+ * @target: target vertex
+ * Return: a queue with full path from src to @target
+ */
+queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
+			vertex_t const *target)
 {
-int *set;
-		size_t *dist;
-		vertex_t **parent;
+	int *set;
+	size_t *dist;
+	vertex_t **parent;
 
-		if (!graph || !start || !target)
-			return (NULL);
-		set = calloc(graph->nb_vertices, sizeof(*set));
+	if (!graph || !start || !target)
+		return (NULL);
+	set = calloc(graph->nb_vertices, sizeof(*set));
 		if (!set)
 		{
 			return (NULL);
