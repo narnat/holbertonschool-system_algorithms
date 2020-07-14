@@ -29,11 +29,11 @@ void calculate_distance(graph_t *graph, vertex_t const *start,
 
 	if (!graph || !set || !dist)
 		return;
-	while (1)
+	while ((vertex = get_min(set, dist, graph)))
 	{
-		vertex = get_min(set, dist, graph);
-		if (!vertex)
-			break;
+		/* vertex = get_min(set, dist, graph); */
+		/* if (!vertex) */
+		/* 	break; */
 		set[vertex->index] = 1;
 		edge = vertex->edges;
 		printf("Checking %s, distance from %s is %lu\n",
@@ -47,10 +47,7 @@ void calculate_distance(graph_t *graph, vertex_t const *start,
 				dist[edge->dest->index] = dist[vertex->index] + edge->weight;
 			}
 		}
-
 	}
-
-
 }
 
 queue_t *get_path(vertex_t **parent, vertex_t const *target)
@@ -86,14 +83,16 @@ queue_t *get_path(vertex_t **parent, vertex_t const *target)
 
 queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start, vertex_t const *target)
 {
-	int *set;
-	size_t *dist;
-	vertex_t **parent;
+int *set;
+		size_t *dist;
+		vertex_t **parent;
 
-	set = calloc(graph->nb_vertices, sizeof(*set));
-	if (!set)
-	{
-		return (NULL);
+		if (!graph || !start || !target)
+			return (NULL);
+		set = calloc(graph->nb_vertices, sizeof(*set));
+		if (!set)
+		{
+			return (NULL);
 	}
 	dist = malloc(graph->nb_vertices * sizeof(*dist));
 	if (!dist)
@@ -102,6 +101,12 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start, vertex_t const *t
 		return (NULL);
 	}
 	parent = calloc(graph->nb_vertices, sizeof(**parent));
+	if (!parent)
+	{
+		free(set);
+		free(dist);
+		return (NULL);
+	}
 	/* Set all to UINT_MAX */
 	memset(dist, 0xFF, graph->nb_vertices * sizeof(*dist));
 	dist[start->index] = 0;
