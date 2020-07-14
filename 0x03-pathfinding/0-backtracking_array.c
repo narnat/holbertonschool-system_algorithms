@@ -76,15 +76,20 @@ queue_t *backtracking_array(char **map, int rows, int cols,
 	int ret;
 
 	visited = calloc(rows * cols, sizeof(*visited));
+	if (!visited)
+		return (NULL);
 	queue = queue_create();
 	if (!queue)
+	{
+		free(visited);
 		return (NULL);
+	}
 	ret = backtracking_helper(&queue, visited, map, rows, cols,
 				  start->x, start->y, target);
 	if (!ret)
 	{
 		queue_delete(queue);
-		return (NULL);
+		queue = NULL;
 	}
 	free(visited);
 	return (queue);

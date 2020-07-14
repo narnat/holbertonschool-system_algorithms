@@ -48,6 +48,7 @@ int backtrack_graph_helper(queue_t **queue, int *seen, vertex_t const *cur,
  * @graph: graph of cities
  * @start: starting city (vertex)
  * @target: target city
+ * Return: a queue with path or NULL if failed
 */
 queue_t *backtracking_graph(graph_t *graph, vertex_t const *start,
 			    vertex_t const *target)

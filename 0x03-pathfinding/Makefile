@@ -3,6 +3,10 @@ CFLAGS = -Wall -Werror -Wextra -pedantic -ggdb3 -std=gnu90 -lm
 
 TASK0 = 0-backtracking_array
 TASK1 = 1-backtracking_graph
+TASK2 = 2-dijkstra_graph
+
+$(TASK2): $(TASK2).c 2-main.c libqueues.a libgraphs.a
+	$(CC) $(CFLAGS) -o $@  $^
 
 $(TASK1): $(TASK1).c 1-main.c libqueues.a libgraphs.a
 	$(CC) $(CFLAGS) -o $@  $^
