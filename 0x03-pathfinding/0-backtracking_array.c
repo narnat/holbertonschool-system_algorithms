@@ -54,7 +54,7 @@ int backtracking_helper(queue_t **queue, int *visited, char **map,
 					x + arr[i][0], y + arr[i][1], target))
 			return (add_point(queue, x, y));
 
-	*(visited + y * cols + x) = 0;
+	/* *(visited + y * cols + x) = 0; */
 	return (0);
 }
 
