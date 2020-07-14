@@ -75,7 +75,7 @@ queue_t *backtracking_array(char **map, int rows, int cols,
 	queue_t *queue;
 	int ret;
 
-	if (!map || !*map || !start || target || rows < 1 || cols < 1)
+	if (!map || !*map || !start || !target || rows < 1 || cols < 1)
 		return (NULL);
 	visited = calloc(rows * cols, sizeof(*visited));
 	if (!visited)
