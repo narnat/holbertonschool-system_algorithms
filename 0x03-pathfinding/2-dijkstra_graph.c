@@ -61,6 +61,12 @@ queue_t *get_path(vertex_t **parent, vertex_t const *target)
 		free(parent);
 		return (NULL);
 	}
+	if (!parent[i])
+	{
+		free(q);
+		free(parent);
+		return (NULL);
+	}
 	if (!queue_push_front(q, strdup(target->content)))
 	{
 		free(parent);
