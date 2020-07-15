@@ -14,7 +14,8 @@
 #define BOTTOM {0, 1}
 #define LEFT {-1, 0}
 #define TOP {0, -1}
-#define Euclidean_dst(x1, y1, x2, y2) (sqrt(pow((x2) - (x1), 2) + pow((y2) - (y1), 2)))
+#define Euclidean_dst(x1, y1, x2, y2) \
+	(sqrt(pow((x2) - (x1), 2) + pow((y2) - (y1), 2)))
 
 /**
  * struct point_s - Structure storing coordinates
