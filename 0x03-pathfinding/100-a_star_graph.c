@@ -1,6 +1,6 @@
 #include "pathfinding.h"
 
-int init(graph_t *graph, vertex_t const *start, int **set, size_t **dist,
+int init(graph_t *graph, vertex_t const *target, int **set, size_t **dist,
 	 vertex_t ***parent, double **euclidean_dist)
 {
 	size_t i;
@@ -31,7 +31,7 @@ int init(graph_t *graph, vertex_t const *start, int **set, size_t **dist,
 	}
 	for (i = 0; i < graph->nb_vertices; ++i)
 	{
-		(*euclidean_dist)[i] = Euclidean_dst(start->x, start->y, vertex->x, vertex->y);
+		(*euclidean_dist)[i] = Euclidean_dst(target->x, target->y, vertex->x, vertex->y);
 		vertex = vertex->next;
 	}
 	/* Set all to UINT_MAX */
@@ -119,20 +119,23 @@ vertex_t *get_min(int *set, size_t *dist, double *euclidean_dist, graph_t *graph
  * @parent: parent array where path is stored, used to retrieve path
  * from src to destination
  */
-void calculate_distance(graph_t *graph, vertex_t const *start,int *set,
+void calculate_distance(graph_t *graph, vertex_t const *start, vertex_t const *target, int *set,
 			size_t *dist, double *euclidean_dist, vertex_t **parent)
 {
 	vertex_t *vertex;
 	edge_t *edge;
 
+	(void)start;
 	if (!graph || !set || !dist)
 		return;
 	while ((vertex = get_min(set, dist, euclidean_dist, graph)))
 	{
 		set[vertex->index] = 1;
 		edge = vertex->edges;
-		printf("Checking %s, distance from %s is %lu\n",
-		       vertex->content, start->content, dist[vertex->index]);
+		printf("Checking %s, distance to %s is %lu\n",
+		       vertex->content, target->content, (size_t)euclidean_dist[vertex->index]);
+		if (vertex->index == target->index)
+			return;
 		for (edge = vertex->edges; edge; edge = edge->next)
 		{
 			if (!set[edge->dest->index] && dist[edge->dest->index] + euclidean_dist[edge->dest->index]
@@ -163,10 +166,10 @@ queue_t *a_star_graph(graph_t *graph, vertex_t const *start,
 
 	if (!graph || !start || !target)
 		return (NULL);
-	if (init(graph, start, &set, &dist, &parent, &euclidean_dist))
+	if (init(graph, target, &set, &dist, &parent, &euclidean_dist))
 		return (NULL);
 	dist[start->index] = 0;
-	calculate_distance(graph, start, set, dist, euclidean_dist, parent);
+	calculate_distance(graph, start, target, set, dist, euclidean_dist, parent);
 	free(set), free(dist), free(euclidean_dist);
 	return (get_path(parent, target));
 }
