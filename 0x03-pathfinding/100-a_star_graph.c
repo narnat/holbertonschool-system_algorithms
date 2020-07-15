@@ -1,5 +1,17 @@
 #include "pathfinding.h"
 
+/**
+ * init - initialize arrays
+ * @graph: a graph
+ * @target: target vertex
+ * @set: set where distances have already been calculated, hence min dist is
+ * not considered to vertex inside this set (in this case boolean array)
+ * @dist: array with distances to vertex from src vertex
+ * @parent: parent array where path is stored, used to retrieve path
+ * from src to destination
+ * @euclidean_dist: Euclidean distance from target to other vertices
+ * Return: 0 if successful, 1 otherwise
+ */
 int init(graph_t *graph, vertex_t const *target, int **set, size_t **dist,
 	 vertex_t ***parent, double **euclidean_dist)
 {
@@ -31,7 +43,8 @@ int init(graph_t *graph, vertex_t const *target, int **set, size_t **dist,
 	}
 	for (i = 0; i < graph->nb_vertices; ++i)
 	{
-		(*euclidean_dist)[i] = Euclidean_dst(target->x, target->y, vertex->x, vertex->y);
+		(*euclidean_dist)[i] = Euclidean_dst(target->x, target->y,
+						     vertex->x, vertex->y);
 		vertex = vertex->next;
 	}
 	/* Set all to UINT_MAX */
@@ -87,12 +100,13 @@ queue_t *get_path(vertex_t **parent, vertex_t const *target)
  * @set: set where distances have already been calculated, hence min dist is
  * not considered to vertex inside this set (in this case boolean array)
  * @dist: array with distances to vertex from src vertex
+ * @euclidean_dist: Euclidean distance from target to other vertices
  * @graph: a graph
- * @start: source vertex
  * Return: a min distance vertex or NULL if failed or
  * there are no more vertices
  */
-vertex_t *get_min(int *set, size_t *dist, double *euclidean_dist, graph_t *graph)
+vertex_t *get_min(int *set, size_t *dist,
+		  double *euclidean_dist, graph_t *graph)
 {
 	size_t min = ULONG_MAX;
 	size_t idx = ULONG_MAX, i;
@@ -113,13 +127,16 @@ vertex_t *get_min(int *set, size_t *dist, double *euclidean_dist, graph_t *graph
  * calculate_distance - main logic of Dijkstra's algorithm
  * @graph: a graph
  * @start: source vertex
+ * @target: target vertex
  * @set: set where distances have already been calculated, hence min dist is
  * not considered to vertex inside this set (in this case boolean array)
  * @dist: array with distances to vertex from src vertex
+ * @euclidean_dist: Euclidean distance from target to other vertices
  * @parent: parent array where path is stored, used to retrieve path
  * from src to destination
  */
-void calculate_distance(graph_t *graph, vertex_t const *start, vertex_t const *target, int *set,
+void calculate_distance(graph_t *graph, vertex_t const *start,
+			vertex_t const *target, int *set,
 			size_t *dist, double *euclidean_dist, vertex_t **parent)
 {
 	vertex_t *vertex;
@@ -132,13 +149,17 @@ void calculate_distance(graph_t *graph, vertex_t const *start, vertex_t const *t
 	{
 		set[vertex->index] = 1;
 		edge = vertex->edges;
+		euclidean_dist[vertex->index] = Euclidean_dst(target->x, target->y,
+							     vertex->x, vertex->y);
 		printf("Checking %s, distance to %s is %lu\n",
-		       vertex->content, target->content, (size_t)euclidean_dist[vertex->index]);
+			       vertex->content, target->content,
+		       (size_t)euclidean_dist[vertex->index]);
 		if (vertex->index == target->index)
 			return;
 		for (edge = vertex->edges; edge; edge = edge->next)
 		{
-			if (!set[edge->dest->index] && dist[edge->dest->index] + euclidean_dist[edge->dest->index]
+			if (!set[edge->dest->index] && dist[edge->dest->index] +
+			    euclidean_dist[edge->dest->index]
 			    > dist[vertex->index] + euclidean_dist[vertex->index] + edge->weight)
 			{
 				parent[edge->dest->index] = vertex;
