@@ -1,27 +1,4 @@
-
-
-    Planning
-    Projects
-    Professional track
-    QA Reviews
-    Mock interviews
-    My resources
-    Curriculums
-    Concepts
-    Library
-    Conference rooms
-    Servers
-    Containers
-    Tools
-    School information
-    My campus
-    Peers
-    Captain's Logs
-    Officers
-    Speakers of the Day
-    My Profile
-
-0x02. C - Huffman coding
+### 0x02. C - Huffman coding
 
 Specializations - System programming & Algorithm ― Data structures and Algorithms
 
