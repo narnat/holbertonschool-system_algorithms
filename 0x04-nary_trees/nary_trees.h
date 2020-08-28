@@ -16,11 +16,11 @@
  */
 typedef struct nary_tree_s
 {
-    char            *content;
-    struct nary_tree_s  *parent;
-    size_t          nb_children;
-    struct nary_tree_s  *children;
-    struct nary_tree_s  *next;
+	char            *content;
+	struct nary_tree_s  *parent;
+	size_t          nb_children;
+	struct nary_tree_s  *children;
+	struct nary_tree_s  *next;
 } nary_tree_t;
 
 nary_tree_t *nary_tree_insert(nary_tree_t *parent, char const *str);
