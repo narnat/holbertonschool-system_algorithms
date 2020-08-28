@@ -30,4 +30,4 @@ size_t nary_tree_traverse(nary_tree_t const *root, void (*action)
 size_t nary_tree_diameter(nary_tree_t const *root);
 int path_exists(nary_tree_t const *root, char const * const *path);
 
-#endif // __NARY_TRESS_H_
+#endif  /* __NARY_TRESS_H_ */
