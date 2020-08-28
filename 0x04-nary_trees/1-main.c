@@ -36,4 +36,5 @@ int main(void)
 
     nary_tree_delete(root);
 
-    return (EXIT_SUCCESS
+    return (EXIT_SUCCESS);
+}
