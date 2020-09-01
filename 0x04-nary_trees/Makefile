@@ -8,9 +8,10 @@ TASK0 = 0-nary_tree_insert
 TASK1 = 1-nary_tree_delete
 TASK2 = 2-nary_tree_traverse
 TASK3 = 3-nary_tree_diameter
+TASK4 = 4-path_exists
 
-# $(TASK4): $(TASK4).c $(TASK3).c $(TASK2).c $(TASK1).c 4-main.c
-# 	$(CC) $(CFLAGS) -o $@  $^
+$(TASK4): $(TASK4).c $(TASK3).c $(TASK2).c $(TASK1).c $(TASK0).c  4-main.c
+	$(CC) $(CFLAGS) -o $@  $^
 
 $(TASK3): $(TASK3).c $(TASK1).c $(TASK0).c 3-main.c
 	$(CC) $(CFLAGS) -o $@  $^
