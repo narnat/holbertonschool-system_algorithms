@@ -1,5 +1,12 @@
 #include "nary_trees.h"
 
+/**
+* ntree_traverse - traverses nary tree, helper function
+* @root: root of a tree
+* @action: call action function on each node
+* @depth: current depth
+* Return: max depth of a tree
+*/
 size_t ntree_traverse(nary_tree_t const *root, void
 					  (*action)(nary_tree_t const *node, size_t depth),
 					  size_t depth)
@@ -21,8 +28,14 @@ size_t ntree_traverse(nary_tree_t const *root, void
 	return (1 + max);
 }
 
-size_t nary_tree_traverse(nary_tree_t const *root, void
-						  (*action)(nary_tree_t const *node, size_t depth))
+/**
+* nary_tree_traverse - traverses nary tree
+* @root: root of a tree
+* @action: call action function on each node
+* Return: max depth of a tree
+*/
+size_t nary_tree_traverse(nary_tree_t const *root,
+						  void (*action)(nary_tree_t const *node, size_t depth))
 {
 	size_t depth;
 
