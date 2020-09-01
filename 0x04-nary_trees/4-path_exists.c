@@ -11,13 +11,11 @@ int path_exists(nary_tree_t const *root, char const * const *path)
 	int idx = 0;
 	nary_tree_t const *node;
 
-	if (!root || !path)
+	if (!root || !path || !path[idx])
 		return (0);
 	node = root;
 	while (node)
 	{
-		if (!path[idx])
-			return (0);
 		while (node && strcmp(path[idx], node->content))
 			node = node->next;
 		if (!node)
